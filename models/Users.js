@@ -1,14 +1,12 @@
 var mongoose = require('mongoose');
+var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
 
 var UserSchema = new mongoose.Schema({
   username: {type: String, lowercase: true, unique: true},
   hash: String,
   salt: String
 });
-
-mongoose.model('User', UserSchema);
-
-var crypto = require('crypto');
 
 UserSchema.methods.setPassword = function(password){
   this.salt = crypto.randomBytes(16).toString('hex');
@@ -21,8 +19,6 @@ UserSchema.methods.validPassword = function(password) {
 
   return this.hash === hash;
 };
-
-var jwt = require('jsonwebtoken');
 
 UserSchema.methods.generateJWT = function() {
 
@@ -38,3 +34,4 @@ UserSchema.methods.generateJWT = function() {
   }, 'SECRET');
 };
 
+mongoose.model('User', UserSchema);

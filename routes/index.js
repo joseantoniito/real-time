@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var jwt = require('express-jwt');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
@@ -45,11 +46,11 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 
-.factory('auth', ['$http', '$window', function($http, $window){
+/*.factory(['$http', '$window', function($http, $window){
    var auth = {};
 
   return auth;
-}])
+}])*/
 
 auth.saveToken = function (token){
   $window.localStorage['flapper-news-token'] = token;
