@@ -10,6 +10,15 @@ var users = require('./routes/users');
 
 var app = express();
 
+//custom includes real time app
+var mongoose = require('mongoose');
+var passport = require('passport');
+require('./models/Users');
+require('./config/passport');
+
+mongoose.connect('mongodb://localhost/test');
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -21,6 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);
@@ -58,3 +68,7 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
+
+
+
