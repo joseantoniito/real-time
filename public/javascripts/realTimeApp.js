@@ -79,6 +79,7 @@ function($stateProvider, $urlRouterProvider) {
   //$urlRouterProvider.otherwise('home');
 }]);
 
+
 //controllers to login
 app.controller('AuthCtrl', [
 '$scope',
@@ -112,6 +113,9 @@ function($scope, auth){
   $scope.isLoggedIn = auth.isLoggedIn;
   $scope.currentUser = auth.currentUser;
   $scope.logOut = auth.logOut;
+  
+  //if(!auth.isLoggedIn())
+	  
 }]);
 
 app.factory('auth', ['$http', '$window', function($http, $window){

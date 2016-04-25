@@ -7,7 +7,10 @@ var jwt = require('express-jwt');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 /* GET home page. */
+
+
 router.get('/', auth, function(req, res, next) {
+//router.get('/', function(req, res, next) {
 //router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
@@ -46,6 +49,9 @@ router.post('/login', function(req, res, next){
       return res.status(401).json(info);
     }
   })(req, res, next);
+  
+  /*passport.authenticate('local', { successRedirect: '/',
+                                   failureRedirect: '/login' })*/
 });
 
 /*.factory(['$http', '$window', function($http, $window){
