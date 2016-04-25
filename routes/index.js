@@ -9,10 +9,29 @@ var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 /* GET home page. */
 
 
-router.get('/', auth, function(req, res, next) {
+//router.get('/home', auth, function(req, res, next) {
 //router.get('/', function(req, res, next) {
-//router.get('/', function(req, res, next) {
+
+router.get('/home', auth, function(req, res, next) {
+  //res.render('index', { title: 'Express' });
+  console.log(req);
+  console.log(res);
+  console.log(next);
+  
+  res.redirect('/login');
+  
+  	//express.static('/login')(req, res, next);
+});
+
+/*router.get('/home',
+  passport.authenticate('provider', { successRedirect: '/',
+                                      failureRedirect: '/login' }));*/
+
+router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+  
+  //if (!req.isAuthenticated())
+  //	express.static('/login')(req, res, next);
 });
 
 //Add a /register route that creates a user given a username and password
