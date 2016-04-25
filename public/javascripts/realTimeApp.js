@@ -1,43 +1,3 @@
-	
-//var app = angular.module('realTime', []);
-
-/*
-app.controller('MainCtrl', [
-'$scope',
-function($scope){
-  $scope.test = 'Hello world!';
-}]);
-
-
-app.factory('posts', [function(){
-  // service body
-}])
-
-app.config([
-'$stateProvider',
-'$urlRouterProvider',
-function($stateProvider, $urlRouterProvider) {
-
-  $stateProvider
-    .state('home', {
-      url: '/home',
-      templateUrl: '/home.html',
-      controller: 'MainCtrl'
-    });
-
-  $urlRouterProvider.otherwise('home');
-}]);
-
-
-app.controller('PostsCtrl', [
-'$scope',
-'$stateParams',
-'posts',
-function($scope, $stateParams, posts){
-
-}]);
-*/
-
 var app = angular.module('realTime', ['ui.router'])
 
 app.config([
@@ -80,7 +40,6 @@ function($stateProvider, $urlRouterProvider) {
 }]);
 
 
-//controllers to login
 app.controller('AuthCtrl', [
 '$scope',
 '$state',
@@ -113,9 +72,6 @@ function($scope, auth){
   $scope.isLoggedIn = auth.isLoggedIn;
   $scope.currentUser = auth.currentUser;
   $scope.logOut = auth.logOut;
-  
-  //if(!auth.isLoggedIn())
-	  
 }]);
 
 app.factory('auth', ['$http', '$window', function($http, $window){
