@@ -8,6 +8,7 @@ var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 /* GET home page. */
 router.get('/', auth, function(req, res, next) {
+//router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
@@ -36,7 +37,8 @@ router.post('/login', function(req, res, next){
   }
 
   passport.authenticate('local', function(err, user, info){
-    if(err){ return next(err); }
+    debugger;
+	if(err){ return next(err); }
 
     if(user){
       return res.json({token: user.generateJWT()});
@@ -52,6 +54,7 @@ router.post('/login', function(req, res, next){
   return auth;
 }])*/
 
+/*
 auth.saveToken = function (token){
   $window.localStorage['flapper-news-token'] = token;
 };
@@ -95,7 +98,7 @@ auth.logIn = function(user){
 
 auth.logOut = function(){
   $window.localStorage.removeItem('flapper-news-token');
-};
+};*/
 
 
 module.exports = router;

@@ -4,11 +4,40 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
 	<script src="/javascripts/realTimeApp.js"></script>
+	
+
+	
+	
+  </head>
+  <body ng-app="realTime">
+	<nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
+		<ul class="nav navbar-nav">
+		  <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
+		  <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
+		  <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+		  <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+		</ul>
+	</nav>
+  
+	<ui-view></ui-view>
+  
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+	
+	
+<script type="text/ng-template" id="/home.html">
+  <div class="page-header">
+    <h1>Real Time</h1>
+  </div>
+
+  <!-- rest of template -->
+</script>
 	
 <script type="text/ng-template" id="/register.html">
   <div class="page-header">
-    <h1>Flapper News</h1>
+    <h1>Real Time</h1>
   </div>
 
   <div ng-show="error" class="alert alert-danger row">
@@ -37,7 +66,7 @@
 
 <script type="text/ng-template" id="/login.html">
   <div class="page-header">
-    <h1>Flapper News</h1>
+    <h1>Real Time</h1>
   </div>
 
   <div ng-show="error" class="alert alert-danger row">
@@ -64,20 +93,5 @@
   </form>
 </script>
 	
-	
-  </head>
-  <body>
-	<nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
-		<ul class="nav navbar-nav">
-		  <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
-		  <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
-		  <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
-		  <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
-		</ul>
-	</nav>
-  
-  
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
   </body>
 </html>

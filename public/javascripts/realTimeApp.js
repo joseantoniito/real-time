@@ -1,18 +1,13 @@
-var app = angular.module('flapperNews', []);
+	
+//var app = angular.module('realTime', []);
 
+/*
 app.controller('MainCtrl', [
 '$scope',
 function($scope){
   $scope.test = 'Hello world!';
 }]);
 
-/*$scope.posts = [
-  'post 1',
-  'post 2',
-  'post 3',
-  'post 4',
-  'post 5'
-];*/
 
 app.factory('posts', [function(){
   // service body
@@ -33,11 +28,6 @@ function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('home');
 }]);
 
-/*.state('posts', {
-  url: '/posts/{id}',
-  templateUrl: '/posts.html',
-  controller: 'PostsCtrl'
-});*/
 
 app.controller('PostsCtrl', [
 '$scope',
@@ -46,11 +36,51 @@ app.controller('PostsCtrl', [
 function($scope, $stateParams, posts){
 
 }]);
+*/
 
+var app = angular.module('realTime', ['ui.router'])
 
+app.config([
+'$stateProvider',
+'$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
+
+  $stateProvider
+    .state('home', {
+      url: '/home',
+      templateUrl: '/home.html',
+      controller: 'MainCtrl'
+    });
+
+	$stateProvider
+	.state('login', {
+	  url: '/login',
+	  templateUrl: '/login.html',
+	  controller: 'AuthCtrl',
+	  onEnter: ['$state', 'auth', function($state, auth){
+		if(auth.isLoggedIn()){
+		  $state.go('home');
+		}
+	  }]
+	});
+	
+	$stateProvider
+	.state('register', {
+	  url: '/register',
+	  templateUrl: '/register.html',
+	  controller: 'AuthCtrl',
+	  onEnter: ['$state', 'auth', function($state, auth){
+		if(auth.isLoggedIn()){
+		  $state.go('home');
+		}
+	  }]
+	});
+	
+  //$urlRouterProvider.otherwise('home');
+}]);
 
 //controllers to login
-.controller('AuthCtrl', [
+app.controller('AuthCtrl', [
 '$scope',
 '$state',
 'auth',
@@ -74,29 +104,8 @@ function($scope, $state, auth){
   };
 }])
 
-.state('login', {
-  url: '/login',
-  templateUrl: '/login.html',
-  controller: 'AuthCtrl',
-  onEnter: ['$state', 'auth', function($state, auth){
-    if(auth.isLoggedIn()){
-      $state.go('home');
-    }
-  }]
-})
-.state('register', {
-  url: '/register',
-  templateUrl: '/register.html',
-  controller: 'AuthCtrl',
-  onEnter: ['$state', 'auth', function($state, auth){
-    if(auth.isLoggedIn()){
-      $state.go('home');
-    }
-  }]
-});
 
-
-.controller('NavCtrl', [
+app.controller('NavCtrl', [
 '$scope',
 'auth',
 function($scope, auth){
@@ -104,3 +113,55 @@ function($scope, auth){
   $scope.currentUser = auth.currentUser;
   $scope.logOut = auth.logOut;
 }]);
+
+app.factory('auth', ['$http', '$window', function($http, $window){
+   var auth = {};
+
+    auth.saveToken = function (token){
+	  $window.localStorage['flapper-news-token'] = token;
+	};
+
+	auth.getToken = function (){
+	  return $window.localStorage['flapper-news-token'];
+	}
+
+	auth.isLoggedIn = function(){
+	  var token = auth.getToken();
+
+	  if(token){
+		var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+		return payload.exp > Date.now() / 1000;
+	  } else {
+		return false;
+	  }
+	};
+
+	auth.currentUser = function(){
+	  if(auth.isLoggedIn()){
+		var token = auth.getToken();
+		var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+		return payload.username;
+	  }
+	};
+
+	auth.register = function(user){
+	  return $http.post('/register', user).success(function(data){
+		auth.saveToken(data.token);
+	  });
+	};
+
+	auth.logIn = function(user){
+	  return $http.post('/login', user).success(function(data){
+		auth.saveToken(data.token);
+	  });
+	};
+
+	auth.logOut = function(){
+	  $window.localStorage.removeItem('flapper-news-token');
+	};
+
+   
+  return auth;
+}])
