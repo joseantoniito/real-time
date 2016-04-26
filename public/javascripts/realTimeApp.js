@@ -75,6 +75,16 @@ app.controller('MainCtrl', [
 function($scope, projects){
   $scope.projects = projects.projects;
 
+  $scope.addProject = function(){
+	  if(!$scope.nombre || $scope.nombre === '') { return; }
+	  projects.create({
+		nombre: $scope.nombre,
+		descripcion: $scope.descripcion,
+	  });
+	  $scope.nombre = '';
+	  $scope.descripcion = '';
+	};
+  
 }])
 
 app.controller('AuthCtrl', [
@@ -183,6 +193,12 @@ app.factory('projects', ['$http', function($http){
       angular.copy(data, o.projects);
     });
   };
+  
+  o.create = function(project) {
+  return $http.post('/projects', project).success(function(data){
+    o.posts.push(data);
+  });
+};
   
   return o;
 }]);
