@@ -7,19 +7,14 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
 	<script src="/javascripts/realTimeApp.js"></script>
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
-	<script>
-		/*$( document ).ready(function() {
-		   $("#btnMostrarCrearProyecto").on("click", function(){
-			$("#divCrearProyecto").show();
-			});
-		});*/
-	</script>
+	<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet" >
 	
   </head>
   <body ng-app="realTime">
-	<nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
-		<ul class="nav navbar-nav">
+	<nav class="navbar navbar-static-top navbar-dark bg-inverse " ng-controller="NavCtrl">
+		<a class="navbar-brand" href="/#/proyectos">Múuch' Wa'akun</a>
+		
+		<ul class="nav navbar-nav pull-right">
 		  <li ng-show="isLoggedIn()"><a href="/#/proyectos">Proyectos</a></li>
 		  <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
 		  <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
@@ -56,23 +51,31 @@
 </script>
     
 <script type="text/ng-template" id="/proyectos.html">
-	<div class="page-header" >
-		<h1>Proyectos</h1>
-	</div>
-
-	<div class="form-group">
-		<div style="float:left;">
-			<a id="btnMostrarCrearProyecto" href="/#/agregar-proyectos">Crear Nuevo Proyecto</a>
-				
-		</div>
-		</div>
-		<div style="float:left;">
-			
-			<div ng-repeat="project in projects">
-			  nombre: {{project.nombre}} - descripcion: {{project.descripcion}}
-			  <a href="#/proyecto/{{project._id}}">Abrir</a>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				Proyectos
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<a id="btnMostrarCrearProyecto" href="/#/agregar-proyectos">Crear Nuevo Proyecto</a>	
+					</div>
+					
+					<div class="col-md-4">
+						<div ng-repeat="project in projects">
+						  nombre: {{project.nombre}} - descripcion: {{project.descripcion}}
+						  <a href="#/proyecto/{{project._id}}">Abrir</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		
+		
+	</div>	
+	
+	
 	</div>
 </script>
 
@@ -96,17 +99,13 @@
 	
 <script type="text/ng-template" id="/home.html">
   <div class="page-header" >
-    <h1>Real Time...</h1>
+    <h1>Múuch' Wa'akun</h1>
   </div>
 
   <!-- rest of template -->
 </script>
 	
 <script type="text/ng-template" id="/register.html">
-  <div class="page-header">
-    <h1>Real Time</h1>
-  </div>
-
   <div ng-show="error" class="alert alert-danger row">
     <span>{{ error.message }}</span>
   </div>
@@ -132,16 +131,13 @@
 </script>
 
 <script type="text/ng-template" id="/login.html">
-  <div class="page-header">
-    <h1>Real Time</h1>
-  </div>
-
   <div ng-show="error" class="alert alert-danger row">
     <span>{{ error.message }}</span>
   </div>
 
   <form ng-submit="logIn()"
-    style="margin-top:30px;">
+    style="margin-top:30px;"
+	class="form-signin">
     <h3>Log In</h3>
 
     <div class="form-group">
