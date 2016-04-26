@@ -3,16 +3,30 @@ var router = express.Router();
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Project = mongoose.model('Project');
 var jwt = require('express-jwt');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
-router.get('/home', auth, function(req, res, next) {
+/*router.get('/home', auth, function(req, res, next) {
   //res.render('index', { title: 'Express' });
   console.log(req);
   console.log(res);
   console.log(next);
   
   res.redirect('/login');
+});*/
+
+
+function loggedIn(req, res, next) {
+    if (req.user.authenticated) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
+router.get('/home', loggedIn , function(req, res, next) {
+  
 });
 
 router.get('/', function(req, res, next) {
@@ -52,6 +66,24 @@ router.post('/login', function(req, res, next){
       return res.status(401).json(info);
     }
   })(req, res, next);
+});
+
+router.get('/projects', function(req, res, next) {
+  Project.find(function(err, projects){
+    if(err){ return next(err); }
+
+    res.json(projects);
+  });
+});
+
+router.post('/projects', function(req, res, next) {
+  var project = new Project(req.body);
+
+  project.save(function(err, project){
+    if(err){ return next(err); }
+
+    res.json(project);
+ });
 });
 
 module.exports = router;

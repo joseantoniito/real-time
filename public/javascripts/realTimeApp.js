@@ -1,9 +1,38 @@
 var app = angular.module('realTime', ['ui.router'])
 
+
+
 app.config([
 '$stateProvider',
 '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
+
+	/*$stateProvider
+		.state('proyectos', {
+		  url: '/proyectos',
+		  templateUrl: '/proyectos.html',
+		  controller: 'MainCtrl'
+		});*/
+		
+	//load projects
+	$stateProvider
+		.state('proyectos', {
+		  url: '/proyectos',
+		  templateUrl: '/proyectos.html',
+		  controller: 'MainCtrl',
+		  resolve: {
+			postPromise: ['projects', function(projects){
+			  return projects.getAll();
+			}]
+		  }
+		});
+		
+	$stateProvider
+		.state('agregar-proyectos', {
+		  url: '/agregar-proyectos',
+		  templateUrl: '/agregar-proyectos.html',
+		  controller: 'MainCtrl'
+		});
 
   $stateProvider
     .state('home', {
@@ -39,6 +68,14 @@ function($stateProvider, $urlRouterProvider) {
   //$urlRouterProvider.otherwise('home');
 }]);
 
+
+app.controller('MainCtrl', [
+'$scope',
+'projects',
+function($scope, projects){
+  $scope.projects = projects.projects;
+
+}])
 
 app.controller('AuthCtrl', [
 '$scope',
@@ -124,5 +161,28 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 	};
 
    
+   auth.getAll = function() {
+    return $http.get('/projects').success(function(data){
+      angular.copy(data, o.posts);
+    });
+  };
+   
   return auth;
 }])
+
+
+app.factory('projects', ['$http', function($http){
+//app.factory('projects', ['$http', 'auth', function($http, auth){
+  //var o = {};
+  var o = {
+    projects: []
+  };
+  
+  o.getAll = function() {
+    return $http.get('/projects').success(function(data){
+      angular.copy(data, o.projects);
+    });
+  };
+  
+  return o;
+}]);

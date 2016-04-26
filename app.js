@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 require('./models/Users');
+require('./models/Projects');
 require('./config/passport');
 mongoose.connect('mongodb://localhost/test');
 

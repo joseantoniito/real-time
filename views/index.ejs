@@ -8,7 +8,13 @@
 	<script src="/javascripts/realTimeApp.js"></script>
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
-	
+	<script>
+		/*$( document ).ready(function() {
+		   $("#btnMostrarCrearProyecto").on("click", function(){
+			$("#divCrearProyecto").show();
+			});
+		});*/
+	</script>
 	
   </head>
   <body ng-app="realTime">
@@ -24,8 +30,38 @@
 	<div ng-hide="isLoggedIn()">
 	<ui-view></ui-view>
     </div>
+
+<script type="text/ng-template" id="/agregar-proyectos.html">
+	<div class="page-header" >
+		<h1>Agregar Proyectos</h1
+		
+		<div id="divCrearProyecto" style="display:block;">
+			<input id="txtNombreProyecto" type="text" />
+			<input id="btnCrearProyecto" type="button" value="Crear" />
+			
+		</div>
+	</div>
+</script>
     
-	
+<script type="text/ng-template" id="/proyectos.html">
+	<div class="page-header" >
+		<h1>Proyectos</h1>
+	</div>
+
+	<div class="form-group">
+		<div style="float:left;">
+			<a id="btnMostrarCrearProyecto" href="/#/agregar-proyectos">Crear Nuevo Proyecto</a>
+				
+		</div>
+		</div>
+		<div style="float:left;">
+			
+			<div ng-repeat="project in projects">
+			  nombre: {{project.nombre}} - descripcion: {{project.descripcion}}
+			</div>
+		</div>
+	</div>
+</script>
 	
 <script type="text/ng-template" id="/home.html">
   <div class="page-header" >
