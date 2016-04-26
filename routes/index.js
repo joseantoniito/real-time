@@ -86,4 +86,21 @@ router.post('/projects', function(req, res, next) {
  });
 });
 
+router.param('project', function(req, res, next, id) {
+  var query = Project.findById(id);
+
+  query.exec(function (err, post){
+    if (err) { return next(err); }
+    if (!post) { return next(new Error('can\'t find post')); }
+
+    req.post = post;
+    return next();
+  });
+});
+
+router.get('/projects/:project', function(req, res) {
+  res.json(req.post);
+});
+
+
 module.exports = router;

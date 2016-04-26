@@ -33,6 +33,18 @@ function($stateProvider, $urlRouterProvider) {
 		  templateUrl: '/agregar-proyectos.html',
 		  controller: 'MainCtrl'
 		});
+		
+	$stateProvider
+		.state('proyecto', {
+		  url: '/proyecto/{id}',
+		  templateUrl: '/proyecto.html',
+		  controller: 'ProjectsCtrl',
+		  resolve: {
+			post: ['$stateParams', 'projects', function($stateParams, projects) {
+			  return projects.get($stateParams.id);
+			}]
+		  }
+		});
 
   $stateProvider
     .state('home', {
@@ -86,6 +98,22 @@ function($scope, projects){
 	};
   
 }])
+
+app.controller('ProjectsCtrl', [
+'$scope',
+'$stateParams',
+'projects',
+function($scope, $stateParams, projects){
+	for(i=0; i< projects.projects.length; i++){
+		if(projects.projects[i]._id == $stateParams.id ){
+			$scope.project = projects.projects[i];
+			break;
+		}
+	}
+	
+	//$scope.project = projects.projects[$stateParams.id];
+	
+}]);
 
 app.controller('AuthCtrl', [
 '$scope',
@@ -184,21 +212,27 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 app.factory('projects', ['$http', function($http){
 //app.factory('projects', ['$http', 'auth', function($http, auth){
   //var o = {};
-  var o = {
-    projects: []
-  };
+	  var o = {
+		projects: []
+	  };
   
-  o.getAll = function() {
-    return $http.get('/projects').success(function(data){
-      angular.copy(data, o.projects);
-    });
-  };
+	o.getAll = function() {
+		return $http.get('/projects').success(function(data){
+		  angular.copy(data, o.projects);
+		});
+	};
   
-  o.create = function(project) {
-  return $http.post('/projects', project).success(function(data){
-    o.posts.push(data);
-  });
-};
+	o.create = function(project) {
+		return $http.post('/projects', project).success(function(data){
+			o.posts.push(data);
+		});
+	};
+
+	o.get = function(id) {
+	  return $http.get('/projects/' + id).then(function(res){
+			return res.data;
+	  });
+	};
   
   return o;
 }]);
