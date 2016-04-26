@@ -7,11 +7,15 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
 	<script src="/javascripts/realTimeApp.js"></script>
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-	<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet" >
+	
 	
   </head>
   <body ng-app="realTime">
-	<nav class="navbar navbar-static-top navbar-dark bg-inverse " ng-controller="NavCtrl">
+	<nav class="navbar navbar-static-top navbar-dark bg-inverse " 
+		style="background-color: #EBEBEB;"
+		ng-controller="NavCtrl">
+		
+		<img style="float:left;" src="../images/Logo.png" width="55">
 		<a class="navbar-brand" href="/#/proyectos">Múuch' Wa'akun</a>
 		
 		<ul class="nav navbar-nav pull-right">
@@ -28,25 +32,34 @@
     </div>
 
 <script type="text/ng-template" id="/agregar-proyectos.html">
-	<div class="page-header" >
-		<h1>Agregar Proyectos</h1>
-		
-		<form ng-submit="addProject()">
-			<div class="form-group">
-			<input type="text" 
-				placeholder="nombre" 
-				ng-model="nombre"
-				class="form-control"></input>
-			</div>
-			<div class="form-group">
-		    <input type="text" 
-				placeholder="descripcion" 
-				ng-model="descripcion"
-				class="form-control"></input>
-		    </div>
-			<button class="btn btn-primary">Crear Proyecto</button>
+	<div class="container">
+	
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<div class="page-header" >
+					<h1>Agregar Proyectos</h1>
+				</div>
 			
-		</form>
+				<form ng-submit="addProject()">
+					<div class="form-group">
+					<input type="text" 
+						placeholder="nombre" 
+						ng-model="nombre"
+						class="form-control"></input>
+					</div>
+					<div class="form-group">
+					<input type="text" 
+						placeholder="descripcion" 
+						ng-model="descripcion"
+						class="form-control"></input>
+					</div>
+					<button class="btn btn-primary">Crear Proyecto</button>
+					
+				</form>
+			</div>
+		</div>
+		
+	
 	</div>
 </script>
     
@@ -63,10 +76,25 @@
 					</div>
 					
 					<div class="col-md-4">
-						<div ng-repeat="project in projects">
-						  nombre: {{project.nombre}} - descripcion: {{project.descripcion}}
-						  <a href="#/proyecto/{{project._id}}">Abrir</a>
-						</div>
+						<table class="table table-striped">
+							<thead>
+							  <tr>
+								<th>Nombre</th>
+								<th>Descripcion</th>
+								<th></th>
+							  </tr>
+							</thead>
+							<tbody>
+							  <tr ng-repeat="project in projects">
+								<td>{{project.nombre}}</td>
+								<td>{{project.descripcion}}</td>
+								<td><a href="#/proyecto/{{project._id}}">Abrir</a></td>
+							  </tr>
+							</tbody>
+						</table>
+					
+						
+						
 					</div>
 				</div>
 			</div>
@@ -106,54 +134,64 @@
 </script>
 	
 <script type="text/ng-template" id="/register.html">
-  <div ng-show="error" class="alert alert-danger row">
-    <span>{{ error.message }}</span>
+  <div class="row">
+	<div class="col-md-4 col-md-offset-4">
+	  <div ng-show="error" class="alert alert-danger row">
+		<span>{{ error.message }}</span>
+	  </div>
+
+	  <form ng-submit="register()"
+		style="margin-top:30px;">
+		<h3>Register</h3>
+
+		<div class="form-group">
+		  <input type="text"
+		  class="form-control"
+		  placeholder="Username"
+		  ng-model="user.username"></input>
+		</div>
+		<div class="form-group">
+		  <input type="password"
+		  class="form-control"
+		  placeholder="Password"
+		  ng-model="user.password"></input>
+		</div>
+		<button type="submit" class="btn btn-primary">Register</button>
+	  </form>
+    </div>
   </div>
-
-  <form ng-submit="register()"
-    style="margin-top:30px;">
-    <h3>Register</h3>
-
-    <div class="form-group">
-      <input type="text"
-      class="form-control"
-      placeholder="Username"
-      ng-model="user.username"></input>
-    </div>
-    <div class="form-group">
-      <input type="password"
-      class="form-control"
-      placeholder="Password"
-      ng-model="user.password"></input>
-    </div>
-    <button type="submit" class="btn btn-primary">Register</button>
-  </form>
 </script>
 
 <script type="text/ng-template" id="/login.html">
-  <div ng-show="error" class="alert alert-danger row">
-    <span>{{ error.message }}</span>
+  <div class="row">
+	<div class="col-md-4 col-md-offset-4">
+  
+	  <div ng-show="error" class="alert alert-danger row">
+		<span>{{ error.message }}</span>
+	  </div>
+
+	  <form ng-submit="logIn()"
+		style="margin-top:30px;"
+		class="form-signin">
+		<h3>Log In</h3>
+
+		<div class="form-group">
+		  <input type="text"
+		  class="form-control"
+		  placeholder="Username"
+		  ng-model="user.username"></input>
+		</div>
+		<div class="form-group">
+		  <input type="password"
+		  class="form-control"
+		  placeholder="Password"
+		  ng-model="user.password"></input>
+		</div>
+		<button type="submit" class="btn btn-primary">Log In</button>
+	  </form>
+  
+    </div>
   </div>
-
-  <form ng-submit="logIn()"
-    style="margin-top:30px;"
-	class="form-signin">
-    <h3>Log In</h3>
-
-    <div class="form-group">
-      <input type="text"
-      class="form-control"
-      placeholder="Username"
-      ng-model="user.username"></input>
-    </div>
-    <div class="form-group">
-      <input type="password"
-      class="form-control"
-      placeholder="Password"
-      ng-model="user.password"></input>
-    </div>
-    <button type="submit" class="btn btn-primary">Log In</button>
-  </form>
 </script>
 	
   </body>
