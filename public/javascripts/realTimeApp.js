@@ -83,8 +83,9 @@ function($stateProvider, $urlRouterProvider) {
 
 app.controller('MainCtrl', [
 '$scope',
+'$state',
 'projects',
-function($scope, projects){
+function($scope, $state, projects){
   $scope.projects = projects.projects;
 
   $scope.addProject = function(){
@@ -92,7 +93,9 @@ function($scope, projects){
 	  projects.create({
 		nombre: $scope.nombre,
 		descripcion: $scope.descripcion,
-	  });
+	  }).then(function(){
+		  $state.go('proyectos');
+	  });;
 	  $scope.nombre = '';
 	  $scope.descripcion = '';
 	};

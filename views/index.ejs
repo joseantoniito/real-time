@@ -8,10 +8,44 @@
 	<script src="/javascripts/realTimeApp.js"></script>
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	
+	<style>
+		.m30{
+			margin:30px !important;
+		}
+		.p5{
+			padding:5px !important;
+		}
+		.bgrdWhite{
+			background-color: white !important;
+			padding: 0;
+		}
+		.bgrdBrown{
+			background-color: #665750 !important;
+			color: white;
+			padding: 1px 0 9px 0;
+			text-align: center;
+			margin-top: 0;
+		}
+		
+		.bgrdBody{
+			background: url("../images/photo_bg.jpg") no-repeat center center fixed;
+			background-size: cover;
+		}
+		
+		.minH{
+			min-height:500px;
+		}
+		.minH2{
+			min-height:288px;
+		}
+		.minH3{
+			min-height:150px;
+		}
+	</style>
 	
   </head>
-  <body ng-app="realTime">
-	<nav class="navbar navbar-static-top navbar-dark bg-inverse " 
+  <body ng-app="realTime" class="bgrdBody">
+	<nav class="navbar navbar-static-top navbar-dark bg-inverse p5" 
 		style="background-color: #EBEBEB;"
 		ng-controller="NavCtrl">
 		
@@ -35,12 +69,12 @@
 	<div class="container">
 	
 		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
-				<div class="page-header" >
-					<h1>Agregar Proyectos</h1>
+			<div class="col-md-4 col-md-offset-4 bgrdWhite">
+				<div class="page-header bgrdBrown" >
+					<h2>Agregar Proyectos</h2>
 				</div>
 			
-				<form ng-submit="addProject()">
+				<form ng-submit="addProject()" class="m30">
 					<div class="form-group">
 					<input type="text" 
 						placeholder="nombre" 
@@ -108,19 +142,66 @@
 </script>
 
 <script type="text/ng-template" id="/proyecto.html">
-  <div class="page-header">
-    <h3>
-      <span>
-        {{project.nombre}}
-      </span>
-	  
-	  <span>
-        {{project.descripcion}}
-      </span>
-    </h3>
-  </div>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+				  <span>
+					{{project.nombre}}
+				  </span>
+				  
+				</h3>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Área de trabajo (carpetas)
+							</div>
+							<div class="panel-body minH">
 
-  
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-4">
+						<div class="row minH2">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Área de edición
+								</div>
+								<div class="panel-body minH2">
+
+								</div>
+							</div>
+						</div>
+						<div class="row minH3">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									Área de ejecución
+								</div>
+								<div class="panel-body minH3">
+
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								Área de colaboración
+							</div>
+							<div class="panel-body minH">
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </script>
 
 
@@ -135,15 +216,17 @@
 	
 <script type="text/ng-template" id="/register.html">
   <div class="row">
-	<div class="col-md-4 col-md-offset-4">
+	<div class="col-md-4 col-md-offset-4 bgrdWhite">
 	  <div ng-show="error" class="alert alert-danger row">
 		<span>{{ error.message }}</span>
 	  </div>
 
+	  <div class="page-header bgrdBrown" >
+		<h2>Register</h2>
+	  </div>
+	  
 	  <form ng-submit="register()"
-		style="margin-top:30px;">
-		<h3>Register</h3>
-
+		class="m30">
 		<div class="form-group">
 		  <input type="text"
 		  class="form-control"
@@ -164,17 +247,19 @@
 
 <script type="text/ng-template" id="/login.html">
   <div class="row">
-	<div class="col-md-4 col-md-offset-4">
+	<div class="col-md-4 col-md-offset-4 bgrdWhite">
   
 	  <div ng-show="error" class="alert alert-danger row">
 		<span>{{ error.message }}</span>
 	  </div>
 
+	  <div class="page-header bgrdBrown" >
+		<h2>Log In</h2>
+	  </div>
+	  
 	  <form ng-submit="logIn()"
-		style="margin-top:30px;"
-		class="form-signin">
-		<h3>Log In</h3>
-
+		class="form-signin m30">
+		
 		<div class="form-group">
 		  <input type="text"
 		  class="form-control"
