@@ -1,4 +1,4 @@
-var app = angular.module('realTime', ['ui.router'])
+var app = angular.module('realTime', ['ui.router', 'ngMaterial'])
 
 
 

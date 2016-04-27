@@ -3,9 +3,10 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
-	<script src="/javascripts/realTimeApp.js"></script>
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+	
+	
+	
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	
 	<style>
@@ -41,6 +42,10 @@
 		.minH3{
 			min-height:150px;
 		}
+		
+		.lneHgtTd{
+			line-height: 46px !important;
+		}
 	</style>
 	
   </head>
@@ -50,14 +55,24 @@
 		ng-controller="NavCtrl">
 		
 		<img style="float:left;" src="../images/Logo.png" width="55">
-		<a class="navbar-brand" href="/#/proyectos">Múuch' Wa'akun</a>
+		<md-button class="md-primary navbar-brand" ng-href="/#/proyectos">Múuch' Wa'akun</md-button>
 		
 		<ul class="nav navbar-nav pull-right">
-		  <li ng-show="isLoggedIn()"><a href="/#/proyectos">Proyectos</a></li>
-		  <li ng-show="isLoggedIn()"><a>{{ currentUser() }}</a></li>
-		  <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()">Log Out</a></li>
-		  <li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
-		  <li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+		  <li ng-show="isLoggedIn()">
+			<md-button class="md-primary" ng-href="/#/proyectos">Proyectos</md-button>
+		  </li>
+		  <li ng-show="isLoggedIn()">
+			<md-button class="md-primary" ng-href="">{{ currentUser() }}</md-button>
+		  </li>
+		  <li ng-show="isLoggedIn()">
+			<md-button class="md-primary" ng-href="" ng-click="logOut()">Log Out</md-button>
+		  </li>
+		  <li ng-hide="isLoggedIn()">
+			<md-button class="md-primary" ng-href="/#/login">Log In</md-button>
+		  </li>
+		  <li ng-hide="isLoggedIn()">
+			<md-button class="md-primary" ng-href="/#/register">Register</md-button>
+		  </li>
 		</ul>
 	</nav>
   
@@ -65,6 +80,21 @@
 	<ui-view></ui-view>
     </div>
 
+	<!-- Angular Material requires Angular.js Libraries -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
+  
+  <!-- Angular Router -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+  
+  <!-- Custom Scripts -->
+  <script src="/javascripts/realTimeApp.js"></script>
+	
 <script type="text/ng-template" id="/agregar-proyectos.html">
 	<div class="container">
 	
@@ -87,8 +117,8 @@
 						ng-model="descripcion"
 						class="form-control"></input>
 					</div>
-					<button class="btn btn-primary">Crear Proyecto</button>
 					
+					<md-button type="submit" class="md-raised md-primary">Crear Proyecto</md-button>
 				</form>
 			</div>
 		</div>
@@ -101,12 +131,12 @@
 	<div class="container">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				Proyectos
+				<h4>Proyectos</h4>
 			</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-4">
-						<a id="btnMostrarCrearProyecto" href="/#/agregar-proyectos">Crear Nuevo Proyecto</a>	
+						<md-button class="md-primary" ng-href="/#/agregar-proyectos">Crear Nuevo Proyecto</md-button>
 					</div>
 					
 					<div class="col-md-4">
@@ -120,9 +150,11 @@
 							</thead>
 							<tbody>
 							  <tr ng-repeat="project in projects">
-								<td>{{project.nombre}}</td>
-								<td>{{project.descripcion}}</td>
-								<td><a href="#/proyecto/{{project._id}}">Abrir</a></td>
+								<td class="lneHgtTd">{{project.nombre}}</td>
+								<td class="lneHgtTd">{{project.descripcion}}</td>
+								<td>
+									<md-button class="md-primary" ng-href="#/proyecto/{{project._id}}">Abrir</md-button>
+								</td>
 							  </tr>
 							</tbody>
 						</table>
@@ -149,7 +181,7 @@
 				  <span>
 					{{project.nombre}}
 				  </span>
-				  
+					
 				</h3>
 			</div>
 			<div class="panel-body">
@@ -239,7 +271,7 @@
 		  placeholder="Password"
 		  ng-model="user.password"></input>
 		</div>
-		<button type="submit" class="btn btn-primary">Register</button>
+		<md-button type="submit" class="md-raised md-primary">Register</md-button>
 	  </form>
     </div>
   </div>
@@ -272,7 +304,8 @@
 		  placeholder="Password"
 		  ng-model="user.password"></input>
 		</div>
-		<button type="submit" class="btn btn-primary">Log In</button>
+		
+		<md-button type="submit" class="md-raised md-primary">Log In</md-button>
 	  </form>
   
     </div>
