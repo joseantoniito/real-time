@@ -227,7 +227,7 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 	};
   
 	o.create = function(project) {
-		return $http.post('/projects', project).success(function(data){
+		return $http.post('/projects', project, {headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
 			o.posts.push(data);
 		});
 	};

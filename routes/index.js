@@ -62,8 +62,9 @@ router.get('/projects', auth, function(req, res, next) {
   });
 });
 
-router.post('/projects', function(req, res, next) {
+router.post('/projects', auth, function(req, res, next) {
   var project = new Project(req.body);
+  project.idUsuario =  req.payload._id;
 
   project.save(function(err, project){
     if(err){ return next(err); }
