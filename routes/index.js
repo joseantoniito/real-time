@@ -6,6 +6,7 @@ var User = mongoose.model('User');
 var Project = mongoose.model('Project');
 var jwt = require('express-jwt');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
+var ObjectId = require('mongoose').Types.ObjectId; 
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -55,11 +56,12 @@ function loggedIn(req, res, next) {
 }
 
 router.get('/projects', auth, function(req, res, next) {
-  Project.find(function(err, projects){
-    if(err){ return next(err); }
+  Project.find({ idUsuario: new ObjectId(req.payload._id) },
+	  function(err, projects){
+		if(err){ return next(err); }
 
-    res.json(projects);
-  });
+		res.json(projects);
+	  });
 });
 
 router.post('/projects', auth, function(req, res, next) {
