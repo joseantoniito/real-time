@@ -84,8 +84,9 @@ function($stateProvider, $urlRouterProvider) {
 app.controller('MainCtrl', [
 '$scope',
 '$state',
+'auth',
 'projects',
-function($scope, $state, projects){
+function($scope, $state, auth, projects){
   $scope.projects = projects.projects;
 
   $scope.addProject = function(){
@@ -212,15 +213,15 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 }])
 
 
-app.factory('projects', ['$http', function($http){
-//app.factory('projects', ['$http', 'auth', function($http, auth){
+//app.factory('projects', ['$http', function($http){
+app.factory('projects', ['$http', 'auth', function($http, auth){
   //var o = {};
 	  var o = {
 		projects: []
 	  };
   
 	o.getAll = function() {
-		return $http.get('/projects').success(function(data){
+		return $http.get('/projects',{headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
 		  angular.copy(data, o.projects);
 		});
 	};

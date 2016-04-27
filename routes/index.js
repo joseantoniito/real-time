@@ -7,28 +7,6 @@ var Project = mongoose.model('Project');
 var jwt = require('express-jwt');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
-/*router.get('/home', auth, function(req, res, next) {
-  //res.render('index', { title: 'Express' });
-  console.log(req);
-  console.log(res);
-  console.log(next);
-  
-  res.redirect('/login');
-});*/
-
-
-function loggedIn(req, res, next) {
-    if (req.user.authenticated) {
-        next();
-    } else {
-        res.redirect('/login');
-    }
-}
-
-router.get('/home', loggedIn , function(req, res, next) {
-  
-});
-
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
@@ -68,7 +46,15 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 
-router.get('/projects', function(req, res, next) {
+function loggedIn(req, res, next) {
+    if (req.payload.username) {
+        next();
+    } else {
+        res.redirect('/#/login');
+    }
+}
+
+router.get('/projects', auth, function(req, res, next) {
   Project.find(function(err, projects){
     if(err){ return next(err); }
 
