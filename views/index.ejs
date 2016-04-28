@@ -146,6 +146,7 @@
 								<th>Nombre</th>
 								<th>Descripcion</th>
 								<th></th>
+								<th></th>
 							  </tr>
 							</thead>
 							<tbody>
@@ -154,6 +155,12 @@
 								<td class="lneHgtTd">{{project.descripcion}}</td>
 								<td>
 									<md-button class="md-primary" ng-href="#/proyecto/{{project._id}}">Abrir</md-button>
+								</td>
+								<td>
+									<md-button class="md-warn" 
+									ng-click="deleteProject(project._id)">
+									Eliminar</md-button>
+									
 								</td>
 							  </tr>
 							</tbody>
@@ -265,6 +272,26 @@
 		  placeholder="Username"
 		  ng-model="user.username"></input>
 		</div>
+
+		<div class="form-group">
+		  <input type="text"
+		  class="form-control"
+		  placeholder="Nombre Completo"
+		  ng-model="user.nombreCompleto"></input>
+		</div>
+		<div class="form-group">
+		  <input type="text"
+		  class="form-control"
+		  placeholder="Nombre Institucion"
+		  ng-model="user.nombreInstitucion"></input>
+		</div>
+		<div class="form-group">
+		  <input type="text"
+		  class="form-control"
+		  placeholder="Correo Electrónico"
+		  ng-model="user.correoElectronico"></input>
+		</div>
+		
 		<div class="form-group">
 		  <input type="password"
 		  class="form-control"

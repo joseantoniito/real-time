@@ -21,7 +21,11 @@ router.post('/register', function(req, res, next){
 
   user.username = req.body.username;
 
-  user.setPassword(req.body.password)
+  user.setPassword(req.body.password);
+  
+  user.nombreCompleto = req.body.nombreCompleto;
+  user.nombreInstitucion = req.body.nombreInstitucion;
+  user.correoElectronico = req.body.correoElectronico;
 
   user.save(function (err){
     if(err){ return next(err); }
@@ -89,7 +93,30 @@ router.param('project', function(req, res, next, id) {
 
 router.get('/projects/:project', function(req, res) {
   res.json(req.post);
+});	
+
+router.delete('/projects/:project', auth, function(req, res, next) {
+  res.json(req.post);
+  
+  /*var id = req.id;
+  
+  Project.find({ _id: new ObjectId(id) },
+	  function(err, projects){
+		if(err){ return next(err); }
+
+		res.json(projects);
+	  });*/
 });
 
+/*router.delete('/projects/:id', auth, function(req, res, next) {
+  var id = req.id;
+  
+  Project.find({ _id: new ObjectId(id) },
+	  function(err, projects){
+		if(err){ return next(err); }
+
+		res.json(projects);
+	  });
+});*/
 
 module.exports = router;

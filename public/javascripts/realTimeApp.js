@@ -100,6 +100,12 @@ function($scope, $state, auth, projects){
 	  $scope.nombre = '';
 	  $scope.descripcion = '';
 	};
+	
+	$scope.deleteProject = function(id){
+	  projects.delete(id).then(function(){
+		  $state.go('proyectos');
+	  });; 
+	};
   
 }])
 
@@ -236,6 +242,20 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 	  return $http.get('/projects/' + id).then(function(res){
 			return res.data;
 	  });
+	};
+	
+	o.delete = function(id) {
+		return $http.delete('/projects/' + id, {headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
+			console.log(data);
+			/*var index;
+			for(i=0; i<o.posts.length; i++;){
+				if(o.posts[i]._id == data){
+					index = i;
+					break;
+				}
+			}
+			delete o.posts[index];*/
+		});
 	};
   
   return o;
