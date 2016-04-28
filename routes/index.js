@@ -96,16 +96,15 @@ router.get('/projects/:project', function(req, res) {
 });	
 
 router.delete('/projects/:project', auth, function(req, res, next) {
-  res.json(req.post);
+  //res.json(req.post);
   
-  /*var id = req.id;
-  
-  Project.find({ _id: new ObjectId(id) },
-	  function(err, projects){
+  Project.remove({_id : new ObjectId(req.post._id)},
+		function(err, data){
 		if(err){ return next(err); }
 
-		res.json(projects);
-	  });*/
+		res.json(data);
+	  }
+	);
 });
 
 /*router.delete('/projects/:id', auth, function(req, res, next) {

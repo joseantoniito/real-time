@@ -154,11 +154,13 @@
 								<td class="lneHgtTd">{{project.nombre}}</td>
 								<td class="lneHgtTd">{{project.descripcion}}</td>
 								<td>
-									<md-button class="md-primary" ng-href="#/proyecto/{{project._id}}">Abrir</md-button>
+									<md-button class="md-primary" ng-href="#/proyecto/{{project._id}}"
+									ng-show="project._id">Abrir</md-button>
 								</td>
 								<td>
 									<md-button class="md-warn" 
-									ng-click="deleteProject(project._id)">
+									ng-click="deleteProject(project._id)"
+									ng-show="project._id">
 									Eliminar</md-button>
 									
 								</td>

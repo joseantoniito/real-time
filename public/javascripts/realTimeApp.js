@@ -207,21 +207,13 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 	  $window.localStorage.removeItem('flapper-news-token');
 	  window.location.href = "/#/login";
 	};
-
-   
-   auth.getAll = function() {
-    return $http.get('/projects').success(function(data){
-      angular.copy(data, o.posts);
-    });
-  };
+  
    
   return auth;
 }])
 
 
-//app.factory('projects', ['$http', function($http){
 app.factory('projects', ['$http', 'auth', function($http, auth){
-  //var o = {};
 	  var o = {
 		projects: []
 	  };
@@ -234,7 +226,7 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
   
 	o.create = function(project) {
 		return $http.post('/projects', project, {headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
-			o.posts.push(data);
+			o.projects.push(data);
 		});
 	};
 
@@ -247,14 +239,20 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 	o.delete = function(id) {
 		return $http.delete('/projects/' + id, {headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
 			console.log(data);
-			/*var index;
-			for(i=0; i<o.posts.length; i++;){
-				if(o.posts[i]._id == data){
+			
+			var index;
+			for(i=0; i<o.projects.length; i++){
+				if(o.projects[i]._id == id){
 					index = i;
 					break;
 				}
 			}
-			delete o.posts[index];*/
+			delete o.projects[index];
+			
+			if(data.ok == 1)
+				alert("Proyecto eliminado correctamente.");
+			else
+				alert("Ocurrió un error al eliminar el proyecto.");
 		});
 	};
   
