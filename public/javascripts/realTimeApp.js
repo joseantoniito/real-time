@@ -1,6 +1,15 @@
-var app = angular.module('realTime', ['ui.router', 'ngMaterial'])
+var app = angular.module('realTime', ['ui.router', 'ngMaterial', 'ui.bootstrap'])
 
-
+app.directive('disableAnimation', function($animate){
+    return {
+        restrict: 'A',
+        link: function($scope, $element, $attrs){
+            $attrs.$observe('disableAnimation', function(value){
+                $animate.enabled(!value, $element);
+            });
+        }
+    }
+});
 
 app.config([
 '$stateProvider',
@@ -88,6 +97,26 @@ app.controller('MainCtrl', [
 'projects',
 function($scope, $state, auth, projects){
   $scope.projects = projects.projects;
+
+  $scope.myInterval = 3000;
+  $scope.slides = [
+    {
+      image: 'http://lorempixel.com/1300/700/business',
+	  text: 'Mientras se trabaja en grandes proyectos de desarrollo a gran escala todos los ingenieros de software se encuentran en algún momento, con la necesidad de utilizar un sistema de control de código fuente con el fin de añadir o revertir cambios en el código. Además que los proyectos de software que implican una multitud de programadores requieren de un sistema que permita la colaboración asíncrona para lograr un desarrollo exitoso. '
+    },
+    {
+      image: 'http://lorempixel.com/1300/700/technics',
+	  text: 'La tendencia de desarrollo tecnológico en la ingeniería de software ha ido mejorando, donde el diseño de software comenzó a moverse desde el escritorio a la web. Hoy en día, muchos IDEs (Entornos de Desarrollo Integrado)  existen en el mercado como Eclipse, Visual Studio, etc., pero IDEs basados en el escritorio todavía tienen significativas desventajas, como lo es el tiempo necesario para la configuración y la instalación de plugins necesarios para ejecutar el proyecto. Este problema podría ser una enorme pérdida de tiempo cuando hay muchos dispositivos que tienen que ser configurados. Muchas aplicaciones de software se han ejecutado en la nube, y el uso de un navegador web como una interfaz de usuario permite acceso ubicuo, colaboración instantánea, y evita la instalación y configuración en computadoras de escritorio'
+    },
+    {
+      image: 'http://lorempixel.com/1300/700/people',
+	  text: 'Una de las tecnologías que se utilizan para la colaboración instantánea es el uso del IDE (como la programación en parejas). La programación en parejas es la práctica de tener dos programadores que acceden y trabajan en el mismo código en un solo medio ambiente de desarrollo. En la programación en parejas, los programadores tienen la capacidad de crear, editar y borrar el código fuente en tiempo real. La programación en parejas podría resolver el problema de sincronización de código con el fin de mantenerlo vigente, y siempre que el código cambie cualquier programador que esté trabajando en el mismo proyecto podría ver quien realizó el cambio'
+    },
+    {
+      image: 'http://lorempixel.com/1300/700/city',
+	  text: 'Las tecnologías de colaboración podrían ayudar a los programadores a trabajar juntos mientras corrigen errores o discuten el programa en un mismo entorno único pero en diferentes áreas geográficas. Por lo tanto, es necesario hacer una aplicación que pueda mejorar el rendimiento en la etapa de desarrollo y ofrecer soluciones como la colaboración en tiempo real.'
+    }
+  ];
 
   $scope.addProject = function(){
 	  if(!$scope.nombre || $scope.nombre === '') { return; }

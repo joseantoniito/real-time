@@ -10,42 +10,7 @@
 	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	
 	<style>
-		.m30{
-			margin:30px !important;
-		}
-		.p5{
-			padding:5px !important;
-		}
-		.bgrdWhite{
-			background-color: white !important;
-			padding: 0;
-		}
-		.bgrdBrown{
-			background-color: #665750 !important;
-			color: white;
-			padding: 1px 0 9px 0;
-			text-align: center;
-			margin-top: 0;
-		}
 		
-		.bgrdBody{
-			background: url("../images/photo_bg.jpg") no-repeat center center fixed;
-			background-size: cover;
-		}
-		
-		.minH{
-			min-height:500px;
-		}
-		.minH2{
-			min-height:288px;
-		}
-		.minH3{
-			min-height:150px;
-		}
-		
-		.lneHgtTd{
-			line-height: 46px !important;
-		}
 	</style>
 	
   </head>
@@ -91,6 +56,10 @@
 
   <!-- Angular Material Library -->
   <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+  
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap.js"></script> -->
+  
+  	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
   
   <!-- Custom Scripts -->
   <script src="/javascripts/realTimeApp.js"></script>
@@ -248,11 +217,25 @@
 
 	
 <script type="text/ng-template" id="/home.html">
-  <div class="page-header" >
-    <h1>Múuch' Wa'akun</h1>
-  </div>
-
-  <!-- rest of template -->
+	<div id="carouselHome">
+      <carousel interval="myInterval" disable-animation="true">
+        <slide ng-repeat="slide in slides" active="slide.active">
+          <img ng-src="{{slide.image}}" width="1300" >
+		  <div class="textoCarouselHome">
+			<p> {{slide.text}} </p>
+		  </div>
+          <div class="carousel-caption">
+            
+          </div>
+        </slide>
+      </carousel>
+	  
+	  <!--<carousel interval="5000" disable-animation="true">
+		  <slide ng-repeat="slide in slides">
+			<img ng-src="{{slide.image}}" width="1000" height="300" style="margin:auto;">
+		  </slide>
+		</carousel> -->
+    </div>
 </script>
 	
 <script type="text/ng-template" id="/register.html">

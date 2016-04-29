@@ -3,6 +3,77 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.m30{
+	margin:30px !important;
+}
+.p5{
+	padding:5px !important;
+}
+.bgrdWhite{
+	background-color: white !important;
+	padding: 0;
+}
+.bgrdBrown{
+	background-color: #665750 !important;
+	color: white;
+	padding: 1px 0 9px 0;
+	text-align: center;
+	margin-top: 0;
+}
+
+.bgrdBody{
+	background: url("../images/photo_bg.jpg") no-repeat center center fixed;
+	background-size: cover;
+}
+
+.minH{
+	min-height:500px;
+}
+.minH2{
+	min-height:288px;
+}
+.minH3{
+	min-height:150px;
+}
+
+.lneHgtTd{
+	line-height: 46px !important;
+}
+
+
 a {
   color: #00B7FF;
 }
+
+#carouselHome{
+	margin-top: -20px !important;
+}
+
+#slides_control > div{
+  height: 500px;
+}
+
+.textoCarouselHome{
+	position: absolute;
+    top: 10%;
+    left: 20%;
+    color: white;
+    width: 60%;
+    line-height: 30px;
+    font-size: 20px;
+    margin: 0 auto;
+    background-color: rgba(23,2,43,0.6);
+}
+
+/*#carouselHome img{
+  margin: 0 auto;
+  width: 1300px;
+  height:500px;
+}
+#slides_control {
+  position:absolute;
+  width: 400px;
+  left:50%;
+  top:20px;
+ margin-left:-200px;
+}*/
