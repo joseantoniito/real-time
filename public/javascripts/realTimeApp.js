@@ -153,6 +153,14 @@ app.controller('AuthCtrl', [
 function($scope, $state, auth){
   $scope.user = {};
 
+  $scope.avatars = [
+	{ url: 'Avatar1'},
+	{ url: 'Avatar2'},
+	{ url: 'Avatar3'},
+	{ url: 'Avatar4'},
+	{ url: 'Avatar5'},
+	{ url: 'Avatar6'}];
+  
   $scope.register = function(){
     auth.register($scope.user).error(function(error){
       $scope.error = error;
@@ -177,6 +185,7 @@ app.controller('NavCtrl', [
 function($scope, auth){
   $scope.isLoggedIn = auth.isLoggedIn;
   $scope.currentUser = auth.currentUser;
+  $scope.currentAvatar = auth.currentAvatar;
   $scope.logOut = auth.logOut;
 }]);
 
@@ -227,6 +236,15 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 	auth.logOut = function(){
 	  $window.localStorage.removeItem('flapper-news-token');
 	  window.location.href = "/#/login";
+	};
+	
+	auth.currentAvatar = function(){
+	  if(auth.isLoggedIn()){
+		var token = auth.getToken();
+		var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+		return payload.iconoAvatar;
+	  }
 	};
   
    

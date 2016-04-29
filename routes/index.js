@@ -26,6 +26,7 @@ router.post('/register', function(req, res, next){
   user.nombreCompleto = req.body.nombreCompleto;
   user.nombreInstitucion = req.body.nombreInstitucion;
   user.correoElectronico = req.body.correoElectronico;
+  user.iconoAvatar = req.body.iconoAvatar;
 
   user.save(function (err){
     if(err){ return next(err); }
