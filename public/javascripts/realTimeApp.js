@@ -15,14 +15,6 @@ app.config([
 '$stateProvider',
 '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
-
-	/*$stateProvider
-		.state('proyectos', {
-		  url: '/proyectos',
-		  templateUrl: '/proyectos.html',
-		  controller: 'MainCtrl'
-		});*/
-		
 	//load projects
 	$stateProvider
 		.state('proyectos', {
@@ -165,7 +157,7 @@ function($scope, $state, auth){
     auth.register($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
-      $state.go('proyectos');
+      $state.go('home');
     });
   };
 
@@ -173,7 +165,7 @@ function($scope, $state, auth){
     auth.logIn($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
-      $state.go('proyectos');
+      $state.go('home');
     });
   };
 }])
