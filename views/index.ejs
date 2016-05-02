@@ -71,6 +71,8 @@
 <script type="text/ng-template" id="/agregar-proyectos.html">
 	<div class="container">
 	
+		
+	
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4 bgrdWhite">
 				<div class="page-header bgrdBrown" >
@@ -78,18 +80,16 @@
 				</div>
 			
 				<form ng-submit="addProject()" class="m30">
-					<div class="form-group">
-					<input type="text" 
-						placeholder="nombre" 
-						ng-model="nombre"
-						class="form-control"></input>
-					</div>
-					<div class="form-group">
-					<input type="text" 
-						placeholder="descripcion" 
-						ng-model="descripcion"
-						class="form-control"></input>
-					</div>
+					
+					<md-input-container>
+						<label>Nombre</label>
+						<input ng-model="nombre">
+					</md-input-container>
+					
+					<md-input-container>
+						<label>Descripcion</label>
+						<input ng-model="descripcion">
+					</md-input-container>
 					
 					<md-button type="submit" class="md-raised md-primary">Crear Proyecto</md-button>
 				</form>
@@ -112,39 +112,34 @@
 						<md-button class="md-primary" ng-href="/#/agregar-proyectos">Crear Nuevo Proyecto</md-button>
 					</div>
 					
-					<div class="col-md-8">
-						<table class="table table-striped">
-							<thead>
-							  <tr>
-								<th>Nombre</th>
-								<th>Descripcion</th>
-								<th>Fecha Creación</th>
-								<th></th>
-								<th></th>
-							  </tr>
-							</thead>
-							<tbody>
-							  <tr ng-repeat="project in projects">
-								<td class="lneHgtTd">{{project.nombre}}</td>
-								<td class="lneHgtTd">{{project.descripcion}}</td>
-								<td class="lneHgtTd">
-								{{project.fechaCreacion | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-								<td>
-									<md-button class="md-primary" ng-href="#/proyecto/{{project._id}}"
+					<div class="col-md-6">
+						<div  ng-repeat="project in projects">
+							<md-card>
+								<md-card-title>
+								  <md-card-title-media>
+									
+								  </md-card-title-media>
+								  
+								  <md-card-title-text>
+									<span class="md-headline">{{project.nombre}}</span>
+									<span class="md-subhead">{{project.descripcion}}</span>
+									<span class="md-subhead">{{project.fechaCreacion | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+								  </md-card-title-text>
+								  
+								</md-card-title>
+								<md-card-actions layout="row" layout-align="end center">
+								  <md-button class="md-primary" ng-href="#/proyecto/{{project._id}}"
 									ng-show="project._id">Abrir</md-button>
-								</td>
-								<td>
+									
 									<md-button class="md-warn" 
 									ng-click="deleteProject(project._id)"
 									ng-show="project._id">
 									Eliminar</md-button>
 									
-								</td>
-							  </tr>
-							</tbody>
-						</table>
-					
-						
+								  
+								</md-card-actions>
+							  </md-card>
+						</div>
 						
 					</div>
 				</div>
@@ -237,11 +232,6 @@
         </slide>
       </carousel>
 	  
-	  <!--<carousel interval="5000" disable-animation="true">
-		  <slide ng-repeat="slide in slides">
-			<img ng-src="{{slide.image}}" width="1000" height="300" style="margin:auto;">
-		  </slide>
-		</carousel> -->
     </div>
 </script>
 	
@@ -257,48 +247,39 @@
 	  </div>
 	  
 	  <form ng-submit="register()"
-		class="m30">
-		<div class="form-group">
-		  <input type="text"
-		  class="form-control"
-		  placeholder="Username"
-		  ng-model="user.username"></input>
-		</div>
-
-		<div class="form-group">
-		  <input type="text"
-		  class="form-control"
-		  placeholder="Nombre Completo"
-		  ng-model="user.nombreCompleto"></input>
-		</div>
+		class="m30" style="margin-top:0 !important; margin-bottom: 10px !important;">
 		
-		<div class="form-group">
+		<md-input-container>
+			<label>Username</label>
+			<input ng-model="user.username" style="width:300px;">
+		</md-input-container>
+		<md-input-container>
+			<label>Nombre Completo</label>
+			<input ng-model="user.nombreCompleto" style="width:300px;">
+		</md-input-container>
+		
+		<md-input-container>
+			<label>Avatar</label>
 			<md-select ng-model="user.iconoAvatar">
 			  <md-option ng-repeat="avatar in avatars" value="{{avatar.url}}">
 				<img src="../images/{{avatar.url}}.png" width="25" height="25" />
 			  </md-option>
 			</md-select>
-		</div>
+		</md-input-container>
 		
-		<div class="form-group">
-		  <input type="text"
-		  class="form-control"
-		  placeholder="Nombre Institucion"
-		  ng-model="user.nombreInstitucion"></input>
-		</div>
-		<div class="form-group">
-		  <input type="text"
-		  class="form-control"
-		  placeholder="Correo Electrónico"
-		  ng-model="user.correoElectronico"></input>
-		</div>
+		<md-input-container>
+			<label>Nombre Institucion</label>
+			<input ng-model="user.nombreInstitucion" style="width:300px;">
+		</md-input-container>
+		<md-input-container>
+			<label>Correo Electrónico</label>
+			<input ng-model="user.correoElectronico" style="width:300px;">
+		</md-input-container>
+		<md-input-container>
+			<label>Password</label>
+			<input type="password" ng-model="user.password" style="width:300px;">
+		</md-input-container>
 		
-		<div class="form-group">
-		  <input type="password"
-		  class="form-control"
-		  placeholder="Password"
-		  ng-model="user.password"></input>
-		</div>
 		<md-button type="submit" class="md-raised md-primary">Register</md-button>
 	  </form>
     </div>
@@ -320,18 +301,15 @@
 	  <form ng-submit="logIn()"
 		class="form-signin m30">
 		
-		<div class="form-group">
-		  <input type="text"
-		  class="form-control"
-		  placeholder="Username"
-		  ng-model="user.username"></input>
-		</div>
-		<div class="form-group">
-		  <input type="password"
-		  class="form-control"
-		  placeholder="Password"
-		  ng-model="user.password"></input>
-		</div>
+		<md-input-container>
+			<label>Username</label>
+			<input ng-model="user.username" style="width:300px;">
+		</md-input-container>
+		
+		<md-input-container>
+			<label>Password</label>
+			<input type="password" ng-model="user.password" style="width:300px;">
+		</md-input-container>
 		
 		<md-button type="submit" class="md-raised md-primary">Log In</md-button>
 	  </form>

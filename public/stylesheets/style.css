@@ -11,14 +11,15 @@ body {
 }
 .bgrdWhite{
 	background-color: white !important;
-	padding: 0;
+	padding: 0 !important;
+	box-shadow: 5px 5px 5px #888888 !important;
 }
 .bgrdBrown{
 	background-color: #665750 !important;
 	color: white;
 	padding: 1px 0 9px 0;
 	text-align: center;
-	margin-top: 0;
+	margin-top: 0 !important;
 }
 
 .bgrdBody{
