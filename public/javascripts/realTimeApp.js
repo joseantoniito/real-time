@@ -90,6 +90,18 @@ app.controller('MainCtrl', [
 function($scope, $state, auth, projects){
   $scope.projects = projects.projects;
 
+  $scope.iconos = [
+	{ url: 'ico-agenda'},
+	{ url: 'ico-blackboard'},
+	{ url: 'ico-blackboard-eraser'},
+	{ url: 'ico-book'},
+	{ url: 'ico-briefcase'},
+	{ url: 'ico-calendar'},
+	{ url: 'ico-computer'},
+	{ url: 'ico-ebook'},
+	{ url: 'ico-file'},
+	{ url: 'ico-folder'}];
+  
   $scope.myInterval = 3000;
   $scope.slides = [
     {
@@ -115,6 +127,7 @@ function($scope, $state, auth, projects){
 	  projects.create({
 		nombre: $scope.nombre,
 		descripcion: $scope.descripcion,
+		icono: $scope.icono
 	  }).then(function(){
 		  $state.go('proyectos');
 	  });;

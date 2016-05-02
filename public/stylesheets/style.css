@@ -3,6 +3,10 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.card-media{
+	margin:0 20px;
+}
+
 .m30{
 	margin:30px !important;
 }

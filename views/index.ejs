@@ -83,12 +83,21 @@
 					
 					<md-input-container>
 						<label>Nombre</label>
-						<input ng-model="nombre">
+						<input ng-model="nombre" style="width:300px;">
 					</md-input-container>
 					
 					<md-input-container>
 						<label>Descripcion</label>
-						<input ng-model="descripcion">
+						<input ng-model="descripcion" style="width:300px;">
+					</md-input-container>
+					
+					<md-input-container style="width:300px;">
+						<label>Ícono</label>
+						<md-select ng-model="icono">
+						  <md-option ng-repeat="icono in iconos" value="{{icono.url}}">
+							<img src="../images/{{icono.url}}.png" width="25" height="25" />
+						  </md-option>
+						</md-select>
 					</md-input-container>
 					
 					<md-button type="submit" class="md-raised md-primary">Crear Proyecto</md-button>
@@ -114,10 +123,12 @@
 					
 					<div class="col-md-6">
 						<div  ng-repeat="project in projects">
-							<md-card>
+							<md-card ng-show="project._id">
 								<md-card-title>
 								  <md-card-title-media>
-									
+								   <div class="md-media-sm card-media">
+										<img src="../images/{{ project.icono }}.png" width="55" />
+									</div>
 								  </md-card-title-media>
 								  
 								  <md-card-title-text>
