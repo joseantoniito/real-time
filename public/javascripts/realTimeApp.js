@@ -184,8 +184,8 @@ function($scope, $stateParams, projects){
       var lowercaseQuery = angular.lowercase(query);
 
       return function filterFn(contact) {
-		if(!contact.correoElectronico) return false;
-        return (contact.correoElectronico.indexOf(lowercaseQuery) != -1);;//contact._lowername
+		if(!contact.nombreCompleto) return false;
+        return (contact.nombreCompleto.indexOf(lowercaseQuery) != -1);;//contact._lowername > correoElectronico
       };
 
     }
@@ -351,7 +351,12 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 	
 	o.getUsers = function() {
 		return $http.get('/users',{headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
-		  angular.copy(data, o.users);
+		  for(i=0;i<data.length;i++){
+			  if(data[i].iconoAvatar && data[i].username != auth.currentUser())
+				  o.users.push(data[i]);
+		  }
+			
+		  //angular.copy(data, o.users);
 			for(i=0;i<o.users.length;i++){
 				o.users[i].iconoAvatar = 
 					"../images/" + o.users[i].iconoAvatar  +".png";

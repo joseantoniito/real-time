@@ -217,28 +217,28 @@
 								Área de colaboración
 							</div>
 							<div class="panel-body minH">
-<md-content class="md-padding autocomplete" layout="column">
-    <md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="nombreCompleto" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="To">
-    </md-contact-chips>
+								<md-content class="md-padding autocomplete" layout="column">
+									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="nombreCompleto" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores">
+									</md-contact-chips>
 
-    <md-list class="fixedRows">
-      <md-subheader class="md-no-sticky">Contacts</md-subheader>
-      <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
-        <img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
-        <div class="md-list-item-text compact">
-          <h3>{{contact.nombreCompleto}}</h3>
-          <p>{{contact.correoElectronico}}</p>
-        </div>
-      </md-list-item>
-      <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
-        <img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
-        <div class="md-list-item-text compact">
-          <h3>{{contact.nombreCompleto}}</h3>
-          <p>{{contact.correoElectronico}}</p>
-        </div>
-      </md-list-item>
-    </md-list>
-</md-content>
+									<md-list class="fixedRows">
+									  <md-subheader class="md-no-sticky">Contacts</md-subheader>
+									  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
+										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
+										<div class="md-list-item-text compact">
+										  <h3>{{contact.nombreCompleto}}</h3>
+										  <p>{{contact.correoElectronico}}</p>
+										</div>
+									  </md-list-item>
+									  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
+										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
+										<div class="md-list-item-text compact">
+										  <h3>{{contact.nombreCompleto}}</h3>
+										  <p>{{contact.correoElectronico}}</p>
+										</div>
+									  </md-list-item>
+									</md-list>
+								</md-content>
 
 							</div>
 						</div>
