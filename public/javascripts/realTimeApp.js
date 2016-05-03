@@ -32,7 +32,20 @@ function($stateProvider, $urlRouterProvider) {
 		.state('agregar-proyectos', {
 		  url: '/agregar-proyectos',
 		  templateUrl: '/agregar-proyectos.html',
-		  controller: 'MainCtrl'
+		  controller: 'ProjectsCtrl'
+		});
+		
+	$stateProvider
+		.state('editar-proyectos', {
+		  url: '/agregar-proyectos/{id}',
+		  templateUrl: '/agregar-proyectos.html',
+		  controller: 'ProjectsCtrl',
+		  resolve: {
+			//if($stateParams.id != null)
+			post: ['$stateParams', 'projects', function($stateParams, projects) {
+			  return projects.get($stateParams.id);
+			}]
+		  }
 		});
 		
 	$stateProvider
@@ -92,17 +105,7 @@ app.controller('MainCtrl', [
 function($scope, $state, auth, projects){
   $scope.projects = projects.projects;
 
-  $scope.iconos = [
-	{ url: 'ico-agenda'},
-	{ url: 'ico-blackboard'},
-	{ url: 'ico-blackboard-eraser'},
-	{ url: 'ico-book'},
-	{ url: 'ico-briefcase'},
-	{ url: 'ico-calendar'},
-	{ url: 'ico-computer'},
-	{ url: 'ico-ebook'},
-	{ url: 'ico-file'},
-	{ url: 'ico-folder'}];
+  
   
   $scope.myInterval = 3000;
   $scope.slides = [
@@ -124,18 +127,7 @@ function($scope, $state, auth, projects){
     }
   ];
 
-  $scope.addProject = function(){
-	  if(!$scope.nombre || $scope.nombre === '') { return; }
-	  projects.create({
-		nombre: $scope.nombre,
-		descripcion: $scope.descripcion,
-		icono: $scope.icono
-	  }).then(function(){
-		  $state.go('proyectos');
-	  });;
-	  $scope.nombre = '';
-	  $scope.descripcion = '';
-	};
+  
 	
 	$scope.deleteProject = function(id){
 	  projects.delete(id).then(function(){
@@ -149,7 +141,20 @@ app.controller('ProjectsCtrl', [
 '$scope',
 '$stateParams',
 'projects',
-function($scope, $stateParams, projects){
+'$state',
+function($scope, $stateParams, projects, $state){
+	$scope.iconos = [
+	{ url: 'ico-agenda'},
+	{ url: 'ico-blackboard'},
+	{ url: 'ico-blackboard-eraser'},
+	{ url: 'ico-book'},
+	{ url: 'ico-briefcase'},
+	{ url: 'ico-calendar'},
+	{ url: 'ico-computer'},
+	{ url: 'ico-ebook'},
+	{ url: 'ico-file'},
+	{ url: 'ico-folder'}];
+	
 	$scope.users = projects.users;
 	for(i=0; i< projects.projects.length; i++){
 		if(projects.projects[i]._id == $stateParams.id ){
@@ -157,6 +162,15 @@ function($scope, $stateParams, projects){
 			break;
 		}
 	}
+	
+	if($scope.project){
+		$scope._id = $stateParams.id;
+		$scope.nombre = $scope.project.nombre;
+		$scope.descripcion = $scope.project.descripcion;
+		$scope.icono = $scope.project.icono;
+	}
+	
+	
 	var cachedQuery, lastSearch;
 	
 	$scope.loadContacts = function(){
@@ -193,6 +207,25 @@ function($scope, $stateParams, projects){
 	$scope.getUsers = function(){
 		projects.getUsers();
 	}
+	
+	
+	$scope.addProject = function(){
+	  if(!$scope.nombre || $scope.nombre === '') { return; }
+	  project = {
+		nombre: $scope.nombre,
+		descripcion: $scope.descripcion,
+		icono: $scope.icono
+	  };
+	  if($scope._id) project._id = $scope._id;
+	  else project._id = null;
+	  
+	  projects.create(project).then(function(){
+		  $state.go('proyectos');
+	  });;
+	  $scope.nombre = '';
+	  $scope.descripcion = '';
+	  $scope._id = null;
+	};
 	
 	//$scope.project = projects.projects[$stateParams.id];
 	

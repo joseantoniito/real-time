@@ -73,11 +73,23 @@ router.post('/projects', auth, function(req, res, next) {
   var project = new Project(req.body);
   project.idUsuario =  req.payload._id;
 
-  project.save(function(err, project){
-    if(err){ return next(err); }
+	if(project._id == null){
+		project.save(function(err, project){
+			if(err){ return next(err); }
 
-    res.json(project);
- });
+			res.json(project);
+		 });
+	}
+	else
+	{
+		Project.update(
+			{_id : new ObjectId(project._id)}, 
+			{nombre : project.nombre, descripcion : project.descripcion, icono : project.icono },  
+			function(err, numAffected){
+				if(err){ return next(err); }
+				res.json(project);
+			});
+	}
 });
 
 router.param('project', function(req, res, next, id) {

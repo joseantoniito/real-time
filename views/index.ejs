@@ -139,8 +139,11 @@
 								  
 								</md-card-title>
 								<md-card-actions layout="row" layout-align="end center">
-								  <md-button class="md-primary" ng-href="#/proyecto/{{project._id}}"
+									<md-button class="md-primary" ng-href="#/proyecto/{{project._id}}"
 									ng-show="project._id">Abrir</md-button>
+									
+									<md-button class="md-primary" ng-href="#/agregar-proyectos/{{project._id}}"
+									ng-show="project._id">Editar</md-button>
 									
 									<md-button class="md-warn" 
 									ng-click="deleteProject(project._id)"
