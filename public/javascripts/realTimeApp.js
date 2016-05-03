@@ -373,7 +373,8 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 					break;
 				}
 			}
-			delete o.projects[index];
+			//delete o.projects[index];
+			o.projects.splice(index, 1);
 			
 			if(data.ok == 1)
 				alert("Proyecto eliminado correctamente.");
