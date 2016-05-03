@@ -42,6 +42,8 @@ function($stateProvider, $urlRouterProvider) {
 		  controller: 'ProjectsCtrl',
 		  resolve: {
 			post: ['$stateParams', 'projects', function($stateParams, projects) {
+				if(projects.users.length==0)
+					projects.getUsers();
 			  return projects.get($stateParams.id);
 			}]
 		  }
@@ -148,14 +150,52 @@ app.controller('ProjectsCtrl', [
 '$stateParams',
 'projects',
 function($scope, $stateParams, projects){
+	$scope.users = projects.users;
 	for(i=0; i< projects.projects.length; i++){
 		if(projects.projects[i]._id == $stateParams.id ){
 			$scope.project = projects.projects[i];
 			break;
 		}
 	}
+	var cachedQuery, lastSearch;
+	
+	$scope.loadContacts = function(){
+		return $scope.users;
+		
+		return [
+			{image: 'Avatar1', name: 'jose', email: 'jose@gmail.com'},
+			{image: 'Avatar2', name: 'antonio', email: 'antonio@gmail.com'},
+			{image: 'Avatar3', name: 'juan', email: 'juan@gmail.com'},
+			{image: 'Avatar4', name: 'pedro', email: 'pedro@gmail.com'},
+			{image: 'Avatar5', name: 'miguel', email: 'miguel@gmail.com'},
+			{image: 'Avatar6', name: 'jesus', email: 'jesus@gmail.com'}];
+	}
+	
+	
+	$scope.allContacts = $scope.loadContacts();
+	$scope.contacts = [];//[$scope.allContacts[0]];
+	$scope.filterSelected = true;
+	
+	$scope.querySearch = function(criteria){
+		cachedQuery = cachedQuery || criteria;
+      return cachedQuery ? $scope.allContacts.filter(createFilterFor(cachedQuery)) : [];
+	}
+	function createFilterFor(query) {
+      var lowercaseQuery = angular.lowercase(query);
+
+      return function filterFn(contact) {
+		if(!contact.correoElectronico) return false;
+        return (contact.correoElectronico.indexOf(lowercaseQuery) != -1);;//contact._lowername
+      };
+
+    }
+	
+	$scope.getUsers = function(){
+		projects.getUsers();
+	}
 	
 	//$scope.project = projects.projects[$stateParams.id];
+	
 	
 }]);
 
@@ -267,7 +307,8 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 
 app.factory('projects', ['$http', 'auth', function($http, auth){
 	  var o = {
-		projects: []
+		projects: [],
+		users: []
 	  };
   
 	o.getAll = function() {
@@ -305,6 +346,17 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 				alert("Proyecto eliminado correctamente.");
 			else
 				alert("Ocurrió un error al eliminar el proyecto.");
+		});
+	};
+	
+	o.getUsers = function() {
+		return $http.get('/users',{headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
+		  angular.copy(data, o.users);
+			for(i=0;i<o.users.length;i++){
+				o.users[i].iconoAvatar = 
+					"../images/" + o.users[i].iconoAvatar  +".png";
+			}
+		  
 		});
 	};
   
