@@ -93,6 +93,18 @@ function($stateProvider, $urlRouterProvider) {
 	  }]
 	});
 	
+	$stateProvider
+	.state('editar-usuario', {
+	  url: '/register/{id}',
+	  templateUrl: '/register.html',
+	  controller: 'AuthCtrl',
+		  resolve: {
+			post: ['$stateParams', 'auth', function($stateParams, auth) {
+			  return auth.currentPayload();
+			}]
+		  }
+	});
+	
   //$urlRouterProvider.otherwise('home');
 }]);
 
@@ -237,7 +249,11 @@ app.controller('AuthCtrl', [
 '$state',
 'auth',
 function($scope, $state, auth){
+  $scope.isLoggedIn = auth.isLoggedIn;
   $scope.user = {};
+  if(auth.isLoggedIn()){
+	  $scope.user  = auth.currentPayload();
+  }
 
   $scope.avatars = [
 	{ url: 'Avatar1'},
@@ -248,6 +264,8 @@ function($scope, $state, auth){
 	{ url: 'Avatar6'}];
   
   $scope.register = function(){
+	if(!$scope.user._id) $scope.user._id = null;
+	
     auth.register($scope.user).error(function(error){
       $scope.error = error;
     }).then(function(){
@@ -330,6 +348,15 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 		var payload = JSON.parse($window.atob(token.split('.')[1]));
 
 		return payload.iconoAvatar;
+	  }
+	};
+	
+	auth.currentPayload = function(){
+	  if(auth.isLoggedIn()){
+		var token = auth.getToken();
+		var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+		return payload;
 	  }
 	};
   

@@ -27,7 +27,7 @@
 			<md-button class="md-primary" ng-href="/#/proyectos">Proyectos</md-button>
 		  </li>
 		  <li ng-show="isLoggedIn()">
-			<md-button class="md-primary" ng-href="">{{ currentUser() }}</md-button>
+			<md-button class="md-primary" ng-href="/#/register/{{currentUser()}}">{{ currentUser() }}</md-button>
 		  </li>
 		  
 		  <li ng-show="isLoggedIn()">
@@ -285,7 +285,7 @@
 	  <form ng-submit="register()"
 		class="m30" style="margin-top:0 !important; margin-bottom: 10px !important;">
 		
-		<md-input-container>
+		<md-input-container ng-show="!isLoggedIn()">
 			<label>Username</label>
 			<input ng-model="user.username" style="width:300px;">
 		</md-input-container>
@@ -316,7 +316,7 @@
 			<input type="password" ng-model="user.password" style="width:300px;">
 		</md-input-container>
 		
-		<md-button type="submit" class="md-raised md-primary">Register</md-button>
+		<md-button type="submit" class="md-raised md-primary">Guardar</md-button>
 	  </form>
     </div>
   </div>

@@ -18,21 +18,40 @@ router.post('/register', function(req, res, next){
   }
 
   var user = new User();
-
+  user._id = req.body._id;
   user.username = req.body.username;
-
   user.setPassword(req.body.password);
   
   user.nombreCompleto = req.body.nombreCompleto;
   user.nombreInstitucion = req.body.nombreInstitucion;
   user.correoElectronico = req.body.correoElectronico;
   user.iconoAvatar = req.body.iconoAvatar;
+  
+  if(user._id == null){
+	  user.save(function (err){
+		if(err){ return next(err); }
 
-  user.save(function (err){
-    if(err){ return next(err); }
-
-    return res.json({token: user.generateJWT()})
-  });
+		return res.json({token: user.generateJWT()})
+	  });
+  }
+  else{
+	  User.update(
+			{_id : new ObjectId(user._id)}, 
+			{
+				//username : user.username, 
+				hash : user.hash, 
+				salt : user.salt, 
+				nombreCompleto : user.nombreCompleto,
+				nombreInstitucion : user.nombreInstitucion,
+				correoElectronico : user.correoElectronico, 
+				iconoAvatar : user.iconoAvatar,
+			},  
+			function(err, numAffected){
+				if(err){ return next(err); }
+				res.json({token: user.generateJWT()});
+			});
+  }
+  
 });
 
 router.post('/login', function(req, res, next){
