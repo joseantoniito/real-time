@@ -111,7 +111,12 @@ router.post('/projects', auth, function(req, res, next) {
 	{
 		Project.update(
 			{_id : new ObjectId(project._id)}, 
-			{nombre : project.nombre, descripcion : project.descripcion, icono : project.icono },  
+			{
+				nombre : project.nombre, 
+				descripcion : project.descripcion, 
+				icono : project.icono,
+				colaboradores : project.colaboradores
+			},  
 			function(err, numAffected){
 				if(err){ return next(err); }
 				res.json(project);

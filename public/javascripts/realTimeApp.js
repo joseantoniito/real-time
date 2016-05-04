@@ -253,10 +253,16 @@ function($scope, $stateParams, projects, $state){
 			{image: 'Avatar5', name: 'miguel', email: 'miguel@gmail.com'},
 			{image: 'Avatar6', name: 'jesus', email: 'jesus@gmail.com'}];
 	}
-	
+	var colaboradores = [];
+	for(i=0; i< $scope.project.colaboradores.length; i++){
+		for(j=0; j< $scope.users.length; j++){
+			if($scope.project.colaboradores[i] == $scope.users[j]._id)
+				colaboradores.push($scope.users[j]);
+		}
+	}
 	
 	$scope.allContacts = $scope.loadContacts();
-	$scope.contacts = [];//[$scope.allContacts[0]];
+	$scope.contacts = colaboradores;//[$scope.allContacts[0]];
 	$scope.filterSelected = true;
 	
 	$scope.querySearch = function(criteria){
@@ -307,6 +313,25 @@ function($scope, $stateParams, projects, $state){
 		  $scope.nombre = '';
 		  $scope.descripcion = '';
 		  $scope._id = null;
+	};
+	
+	$scope.saveCollaborators = function(){
+		debugger;
+		proyecto = $scope.project;
+		usuariosTotales = $scope.users;
+		proyecto.colaboradores = $scope.contacts;
+		
+		projects.create(proyecto).error(function(error){
+			$scope.error = error;
+			if(!$scope.error.message)
+				if($scope.error.indexOf("duplicate key") != -1)
+					$scope.error =
+						new Object({message:"El nombre del proyecto ya esta registrado, favor de intentar con otro nombre de proyecto."});
+			
+			}).then(function(){
+			  debugger;
+			  //
+			});;
 	};
 	
 }]);
