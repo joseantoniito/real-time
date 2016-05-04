@@ -15,7 +15,43 @@ app.config([
 '$stateProvider',
 '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
-	//load projects
+	$stateProvider
+		.state('usuario', {
+		  url: '/usuario/{id}',
+		  templateUrl: '/usuario.html',
+		  controller: 'ProjectsCtrl',
+		  resolve: {
+			post: ['$stateParams', 'projects', function($stateParams, projects) {
+				return projects.getUser($stateParams.id);
+			}]
+		  }
+		});
+	
+	$stateProvider
+		.state('usuarios', {
+		  url: '/usuarios',
+		  templateUrl: '/usuarios.html',
+		  controller: 'ProjectsCtrl',
+		  resolve: {
+			post: ['$stateParams', 'projects', function($stateParams, projects) {
+				if(projects.users.length==0)
+					return projects.getUsers();
+			}]
+		  }
+		});
+	
+	$stateProvider
+		.state('proyectos-publicos', {
+		  url: '/proyectos-publicos',
+		  templateUrl: '/proyectos-publicos.html',
+		  controller: 'MainCtrl',
+		  resolve: {
+			postPromise: ['projects', function(projects){
+			  return projects.getAll();
+			}]
+		  }
+		});
+	
 	$stateProvider
 		.state('proyectos', {
 		  url: '/proyectos',
@@ -159,6 +195,13 @@ function($scope, $state, auth, projects){
 				alert("Ocurrió un error al eliminar el proyecto.");*/
 	  });; 
 	};
+	
+	$scope.viewUser = function(id){
+		projects.getUser(id).then(function(){
+		  
+		  
+	  });
+	}
   
 }])
 
@@ -187,6 +230,7 @@ function($scope, $stateParams, projects, $state){
 			break;
 		}
 	}
+	$scope.user = projects.user;
 	
 	if($scope.project){
 		$scope._id = $stateParams.id;
@@ -396,7 +440,8 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 app.factory('projects', ['$http', 'auth', function($http, auth){
 	  var o = {
 		projects: [],
-		users: []
+		users: [],
+		user: null
 	  };
   
 	o.getAll = function() {
@@ -451,6 +496,13 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 			}
 		  
 		});
+	};
+	
+	o.getUser = function(id) {
+	  return $http.get('/users/' + id).then(function(res){
+		  o.user = res.data;
+			return res.data;
+	  });
 	};
   
   return o;

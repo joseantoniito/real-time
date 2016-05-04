@@ -124,7 +124,7 @@ router.param('project', function(req, res, next, id) {
 
   query.exec(function (err, post){
     if (err) { return next(err); }
-    if (!post) { return next(new Error('can\'t find post')); }
+    if (!post) { return next(new Error('No se encuentra el proyecto')); }
 
     req.post = post;
     return next();
@@ -166,5 +166,21 @@ router.get('/users', auth, function(req, res, next) {
 		res.json(users);
 	  });
 });
+
+router.param('user', function(req, res, next, id) {
+  var query = User.findById(id);
+
+  query.exec(function (err, user){
+    if (err) { return next(err); }
+    if (!user) { return next(new Error('No se encuentra el usuario.')); }
+
+    req.user = user;
+    return next();
+  });
+});
+
+router.get('/users/:user', function(req, res) {
+  res.json(req.user);
+});	
 
 module.exports = router;
