@@ -67,18 +67,14 @@ a {
     line-height: 30px;
     font-size: 20px;
     margin: 0 auto;
-    background-color: rgba(23,2,43,0.6);
+    background-color: rgba(23,2,43,0.5);
+	padding:2%;
+	
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
 }
 
-/*#carouselHome img{
-  margin: 0 auto;
-  width: 1300px;
-  height:500px;
+.alert.alert-danger.row{
+	margin-left: 0 !important;
+	margin-right: 0 !important;
 }
-#slides_control {
-  position:absolute;
-  width: 400px;
-  left:50%;
-  top:20px;
- margin-left:-200px;
-}*/

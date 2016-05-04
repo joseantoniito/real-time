@@ -13,9 +13,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/register', function(req, res, next){
-  if(!req.body.username || !req.body.password){
-    return res.status(400).json({message: 'Please fill out all fields'});
+  if(!req.body.username || 
+	!req.body.password ||
+	!req.body.nombreCompleto ||
+	!req.body.correoElectronico ||
+	!req.body.iconoAvatar){
+    return res.status(400).json({message: 'Por favor llene todos los campos'});
   }
+  if(req.body.password != req.body.confirmPassword)
+	  return res.status(400).json({message: 'La confirmación de contraseña no coincide, favor de intentar nuevamente.'});
 
   var user = new User();
   user._id = req.body._id;
@@ -29,7 +35,9 @@ router.post('/register', function(req, res, next){
   
   if(user._id == null){
 	  user.save(function (err){
-		if(err){ return next(err); }
+		if(err){ 
+			return next(err);
+		}
 
 		return res.json({token: user.generateJWT()})
 	  });
@@ -89,8 +97,8 @@ router.get('/projects', auth, function(req, res, next) {
 });
 
 router.post('/projects', auth, function(req, res, next) {
-  var project = new Project(req.body);
-  project.idUsuario =  req.payload._id;
+	var project = new Project(req.body);
+	project.idUsuario =  req.payload._id;
 
 	if(project._id == null){
 		project.save(function(err, project){

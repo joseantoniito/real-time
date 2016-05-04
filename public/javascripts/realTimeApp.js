@@ -142,8 +142,21 @@ function($scope, $state, auth, projects){
   
 	
 	$scope.deleteProject = function(id){
-	  projects.delete(id).then(function(){
-		  $state.go('proyectos');
+	  projects.delete(id).error(function(error){
+		$scope.error = error;
+		if(!$scope.error.message)
+			$scope.error =
+				new Object({message:"Ocurrió un error al eliminar el proyecto."});
+			
+		}).then(function(){
+		  //$state.go('proyectos');
+		  
+		  $scope.error =
+				new Object({message:"Proyecto eliminado correctamente."});
+		  /*if(data.ok == 1)
+				alert("Proyecto eliminado correctamente.");
+			else
+				alert("Ocurrió un error al eliminar el proyecto.");*/
 	  });; 
 	};
   
@@ -222,25 +235,35 @@ function($scope, $stateParams, projects, $state){
 	
 	
 	$scope.addProject = function(){
-	  if(!$scope.nombre || $scope.nombre === '') { return; }
-	  project = {
-		nombre: $scope.nombre,
-		descripcion: $scope.descripcion,
-		icono: $scope.icono
-	  };
-	  if($scope._id) project._id = $scope._id;
-	  else project._id = null;
+		  if(!$scope.nombre || $scope.nombre === '' ||
+			 !$scope.descripcion ||
+			 !$scope.icono) { 
+				$scope.error =
+					new Object({message:"Por favor llene todos los campos"});
+					return; 
+		  }
+		  project = {
+			nombre: $scope.nombre,
+			descripcion: $scope.descripcion,
+			icono: $scope.icono
+		  };
+		  if($scope._id) project._id = $scope._id;
+		  else project._id = null;
 	  
-	  projects.create(project).then(function(){
-		  $state.go('proyectos');
-	  });;
-	  $scope.nombre = '';
-	  $scope.descripcion = '';
-	  $scope._id = null;
+		  projects.create(project).error(function(error){
+			$scope.error = error;
+			if(!$scope.error.message)
+				if($scope.error.indexOf("duplicate key") != -1)
+					$scope.error =
+						new Object({message:"El nombre del proyecto ya esta registrado, favor de intentar con otro nombre de proyecto."});
+			
+			}).then(function(){
+			  $state.go('proyectos');
+			});;
+		  $scope.nombre = '';
+		  $scope.descripcion = '';
+		  $scope._id = null;
 	};
-	
-	//$scope.project = projects.projects[$stateParams.id];
-	
 	
 }]);
 
@@ -267,7 +290,12 @@ function($scope, $state, auth){
 	if(!$scope.user._id) $scope.user._id = null;
 	
     auth.register($scope.user).error(function(error){
-      $scope.error = error;
+		$scope.error = error;
+		if(!$scope.error.message)
+			if($scope.error.indexOf("duplicate key") != -1)
+				$scope.error =
+					new Object({message:"El nombre de usuario ya esta registrado, favor de intentar con otro nombre de usuario."});
+		
     }).then(function(){
       $state.go('home');
     });
@@ -399,14 +427,13 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 					index = i;
 					break;
 				}
-			}
-			//delete o.projects[index];
+			};
 			o.projects.splice(index, 1);
 			
-			if(data.ok == 1)
+			/*if(data.ok == 1)
 				alert("Proyecto eliminado correctamente.");
 			else
-				alert("Ocurrió un error al eliminar el proyecto.");
+				alert("Ocurrió un error al eliminar el proyecto.");*/
 		});
 	};
 	

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var ProjectSchema = new mongoose.Schema({
-  nombre: String,
+  nombre: {type: String, unique: true},
   descripcion: String,
   idUsuario: { type: mongoose.Schema.Types.ObjectId },
   fechaCreacion: { type: Date, default: Date.now },
@@ -12,7 +12,6 @@ var ProjectSchema = new mongoose.Schema({
   colaboradores: [{ 
 	id: Schema.Types.ObjectId,
 	nombre: String }],*/
-  
 });
 
 mongoose.model('Project', ProjectSchema);

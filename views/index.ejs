@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Múuch' Wa'akun</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
 	
@@ -31,13 +31,13 @@
 		  </li>
 		  
 		  <li ng-show="isLoggedIn()">
-			<md-button class="md-primary" ng-href="" ng-click="logOut()">Log Out</md-button>
+			<md-button class="md-primary" ng-href="" ng-click="logOut()">Cerrar Sesión</md-button>
 		  </li>
 		  <li ng-hide="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/login">Log In</md-button>
+			<md-button class="md-primary" ng-href="/#/login">Inicio de Sesión</md-button>
 		  </li>
 		  <li ng-hide="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/register">Register</md-button>
+			<md-button class="md-primary" ng-href="/#/register">Registro</md-button>
 		  </li>
 		  <li ng-show="isLoggedIn()">
 			<img src="../images/{{ currentAvatar() }}.png" width="55" />
@@ -70,11 +70,12 @@
 	
 <script type="text/ng-template" id="/agregar-proyectos.html">
 	<div class="container">
-	
-		
-	
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4 bgrdWhite">
+				<div ng-show="error" class="alert alert-danger row" style="margin-bottom:0">
+					<span>{{ error.message }}</span>
+				</div>
+			
 				<div class="page-header bgrdBrown" >
 					<h2>Agregar Proyectos</h2>
 				</div>
@@ -95,7 +96,7 @@
 						<label>Ícono</label>
 						<md-select ng-model="icono">
 						  <md-option ng-repeat="icono in iconos" value="{{icono.url}}">
-							<img src="../images/{{icono.url}}.png" width="25" height="25" />
+							<img src="../images/{{icono.url}}.png" width="50" height="50" />
 						  </md-option>
 						</md-select>
 					</md-input-container>
@@ -122,6 +123,10 @@
 					</div>
 					
 					<div class="col-md-6">
+						<div ng-show="error" class="alert alert-danger row">
+							<span>{{ error.message }}</span>
+						</div>
+						
 						<div  ng-repeat="project in projects">
 							<md-card ng-show="project._id">
 								<md-card-title>
@@ -279,14 +284,14 @@
 	  </div>
 
 	  <div class="page-header bgrdBrown" >
-		<h2>Register</h2>
+		<h2>Registro</h2>
 	  </div>
 	  
 	  <form ng-submit="register()"
 		class="m30" style="margin-top:0 !important; margin-bottom: 10px !important;">
 		
 		<md-input-container ng-show="!isLoggedIn()">
-			<label>Username</label>
+			<label>Nombre de Usuario</label>
 			<input ng-model="user.username" style="width:300px;">
 		</md-input-container>
 		<md-input-container>
@@ -298,7 +303,7 @@
 			<label>Avatar</label>
 			<md-select ng-model="user.iconoAvatar">
 			  <md-option ng-repeat="avatar in avatars" value="{{avatar.url}}">
-				<img src="../images/{{avatar.url}}.png" width="25" height="25" />
+				<img src="../images/{{avatar.url}}.png" width="50" height="50" />
 			  </md-option>
 			</md-select>
 		</md-input-container>
@@ -312,8 +317,12 @@
 			<input ng-model="user.correoElectronico" style="width:300px;">
 		</md-input-container>
 		<md-input-container>
-			<label>Password</label>
+			<label>Contraseña</label>
 			<input type="password" ng-model="user.password" style="width:300px;">
+		</md-input-container>
+		<md-input-container>
+			<label>Confirmar Contraseña</label>
+			<input type="password" ng-model="user.confirmPassword" style="width:300px;">
 		</md-input-container>
 		
 		<md-button type="submit" class="md-raised md-primary">Guardar</md-button>
@@ -331,23 +340,23 @@
 	  </div>
 
 	  <div class="page-header bgrdBrown" >
-		<h2>Log In</h2>
+		<h2>Inicio de sesión</h2>
 	  </div>
 	  
 	  <form ng-submit="logIn()"
 		class="form-signin m30">
 		
 		<md-input-container>
-			<label>Username</label>
+			<label>Nombre de Usuario</label>
 			<input ng-model="user.username" style="width:300px;">
 		</md-input-container>
 		
 		<md-input-container>
-			<label>Password</label>
+			<label>Contraseña</label>
 			<input type="password" ng-model="user.password" style="width:300px;">
 		</md-input-container>
 		
-		<md-button type="submit" class="md-raised md-primary">Log In</md-button>
+		<md-button type="submit" class="md-raised md-primary">Iniciar Sesión</md-button>
 	  </form>
   
     </div>
