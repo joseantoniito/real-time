@@ -23,15 +23,17 @@
 		<md-button class="md-primary navbar-brand" ng-href="/#/home">Múuch' Wa'akun</md-button>
 		
 		<ul class="nav navbar-nav pull-right">
+		  
+		  <li ng-show="isLoggedIn()">
+			<md-button class="md-primary" ng-href="/#/proyectos">Workspaces</md-button>
+		  </li>
 		  <li ng-show="isLoggedIn()">
 			<md-button class="md-primary" ng-href="/#/usuarios">Usuarios</md-button>
 		  </li>
 		  <li ng-show="isLoggedIn()">
 			<md-button class="md-primary" ng-href="/#/proyectos-publicos">Proyectos</md-button>
 		  </li>
-		  <li ng-show="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/proyectos">Workspaces</md-button>
-		  </li>
+		  
 		  <li ng-show="isLoggedIn()">
 			<md-button class="md-primary" ng-href="/#/register/{{currentUser()}}">{{ currentUser() }}</md-button>
 		  </li>
@@ -46,7 +48,9 @@
 			<md-button class="md-primary" ng-href="/#/register">Registro</md-button>
 		  </li>
 		  <li ng-show="isLoggedIn()">
+			<a ng-href="/#/usuario/{{currentId()}}">
 			<img src="../images/{{ currentAvatar() }}.png" width="55" />
+			</a>
 		  </li>
 		</ul>
 	</nav>
@@ -75,18 +79,47 @@
   <script src="/javascripts/realTimeApp.js"></script>
 
  <script type="text/ng-template" id="/usuario.html">
-	 <div class="row">
-		{{user.nombreCompleto}}
-	 </div>
-	  <div class="row">
-		{{user.correoElectronico}}
-	 </div>
-	  <div class="row">
-		{{user.iconoAvatar}}
-	 </div>
-	  <div class="row">
-		{{user.nombreInstitucion}}
-	 </div>
+ <div class="row">
+	<div class="col-md-6 col-md-offset-3 bgrdWhite">
+		<div class="">
+			 <md-card>
+				<md-card-title>
+				  <md-card-title-media>
+				   <div class="md-media-sm card-media">
+						<img src="../images/{{ user.iconoAvatar }}.png" width="55" />
+					</div>
+				  </md-card-title-media>
+				  
+				  <md-card-title-text>
+					<span class="md-headline">{{user.nombreCompleto}}</span>
+					<span class="md-subhead">{{user.correoElectronico}}</span>
+					<span class="md-subhead">{{user.nombreInstitucion}}</span>
+				  </md-card-title-text>
+				  
+				</md-card-title>
+			  </md-card>
+		</div>
+		<div>
+			<md-content>
+				<md-list>
+				  <md-subheader class="md-no-sticky">Proyectos en que participa</md-subheader>
+				  <md-list-item class="md-3-line" ng-repeat="project in user.proyectos"
+					ng-show="!project.privado">
+					<img ng-src="../images/{{ project.icono }}.png" 
+					class="md-avatar" 
+					alt="{{project.nombre}}">
+					<div class="md-list-item-text" layout="column">
+					  <h3>{{ project.nombre }}</h3>
+					  <h4>{{ project.descripcion }}</h4>
+					  <p>{{ project.fechaCreacion }}</p>
+					  <p>Finalizado: {{ project.finalizado }}</p>
+					</div>
+				  </md-list-item>
+				</md-list>
+			</md-content>
+		</div>
+	</div>
+</div>
 </script> 
   
 <script type="text/ng-template" id="/usuarios.html">
@@ -128,7 +161,8 @@
 		<md-content>
 			<md-list>
 			  <md-subheader class="md-no-sticky">Proyectos Públicos</md-subheader>
-			  <md-list-item class="md-3-line" ng-repeat="project in projects">
+			  <md-list-item class="md-3-line" ng-repeat="project in projects"
+			  ng-show="!project.privado">
 				<img ng-src="../images/{{ project.icono }}.png" 
 				class="md-avatar" 
 				alt="{{project.nombre}}">
@@ -175,6 +209,12 @@
 							<img src="../images/{{icono.url}}.png" width="50" height="50" />
 						  </md-option>
 						</md-select>
+					</md-input-container>
+					
+					<md-input-container style="width:300px;">
+						<label>Privado</label>
+						<md-checkbox ng-model="privado" aria-label="Privado">
+						</md-checkbox>
 					</md-input-container>
 					
 					<md-button type="submit" class="md-raised md-primary">Guardar</md-button>
@@ -328,6 +368,10 @@
 								<md-button type="submit" class="md-raised md-primary">Guardar Colaboradores</md-button>
 								
 							</form>
+							
+							<div ng-show="error" class="alert alert-danger row">
+								<span>{{ error.message }}</span>
+							</div>
 
 							</div>
 						</div>

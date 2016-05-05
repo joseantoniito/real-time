@@ -47,7 +47,7 @@ function($stateProvider, $urlRouterProvider) {
 		  controller: 'MainCtrl',
 		  resolve: {
 			postPromise: ['projects', function(projects){
-			  return projects.getAll();
+			  return projects.getAllPublic();
 			}]
 		  }
 		});
@@ -210,7 +210,8 @@ app.controller('ProjectsCtrl', [
 '$stateParams',
 'projects',
 '$state',
-function($scope, $stateParams, projects, $state){
+'auth',
+function($scope, $stateParams, projects, $state, auth){
 	$scope.iconos = [
 	{ url: 'ico-agenda'},
 	{ url: 'ico-blackboard'},
@@ -232,11 +233,20 @@ function($scope, $stateParams, projects, $state){
 	}
 	$scope.user = projects.user;
 	
+	var colaboradores = [];
+	
 	if($scope.project){
 		$scope._id = $stateParams.id;
 		$scope.nombre = $scope.project.nombre;
 		$scope.descripcion = $scope.project.descripcion;
 		$scope.icono = $scope.project.icono;
+		
+		for(i=0; i< $scope.project.colaboradores.length; i++){
+			for(j=0; j< $scope.users.length; j++){
+				if($scope.project.colaboradores[i] == $scope.users[j]._id)
+					colaboradores.push($scope.users[j]);
+			}
+		}
 	}
 	
 	
@@ -253,13 +263,7 @@ function($scope, $stateParams, projects, $state){
 			{image: 'Avatar5', name: 'miguel', email: 'miguel@gmail.com'},
 			{image: 'Avatar6', name: 'jesus', email: 'jesus@gmail.com'}];
 	}
-	var colaboradores = [];
-	for(i=0; i< $scope.project.colaboradores.length; i++){
-		for(j=0; j< $scope.users.length; j++){
-			if($scope.project.colaboradores[i] == $scope.users[j]._id)
-				colaboradores.push($scope.users[j]);
-		}
-	}
+	
 	
 	$scope.allContacts = $scope.loadContacts();
 	$scope.contacts = colaboradores;//[$scope.allContacts[0]];
@@ -295,7 +299,8 @@ function($scope, $stateParams, projects, $state){
 		  project = {
 			nombre: $scope.nombre,
 			descripcion: $scope.descripcion,
-			icono: $scope.icono
+			icono: $scope.icono,
+			privado: $scope.privado
 		  };
 		  if($scope._id) project._id = $scope._id;
 		  else project._id = null;
@@ -330,7 +335,31 @@ function($scope, $stateParams, projects, $state){
 			
 			}).then(function(){
 			  debugger;
-			  //
+				for(i=0; i < proyecto.colaboradores.length; i++){
+					
+					var proyectoExisteEnColaborador = false;
+					for(j=0; proyecto.colaboradores[i].proyectos.length; j++){
+						if(proyecto.colaboradores[i].proyectos[j] == proyecto._id){
+							proyectoExisteEnColaborador = true;
+							break;
+						}
+					}
+					if(!proyectoExisteEnColaborador)
+						proyecto.colaboradores[i].proyectos.push({_id: proyecto._id});
+					//angular.copy(data, o.projects);
+					auth.updateUserProjects(proyecto.colaboradores[i])
+						.error(function(error){
+							$scope.error = error;
+							if(!$scope.error.message)
+								if($scope.error.indexOf("duplicate key") != -1)
+									$scope.error =
+										new Object({message:"El nombre de usuario ya esta registrado, favor de intentar con otro nombre de usuario."});
+						}).then(function(){
+							debugger;
+							$scope.error =
+								new Object({message:"Los colaboradores fueron agregados exitosamente."});
+						});
+				}
 			});;
 	};
 	
@@ -387,6 +416,7 @@ function($scope, auth){
   $scope.isLoggedIn = auth.isLoggedIn;
   $scope.currentUser = auth.currentUser;
   $scope.currentAvatar = auth.currentAvatar;
+  $scope.currentId = auth.currentId;
   $scope.logOut = auth.logOut;
 }]);
 
@@ -427,6 +457,12 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 		auth.saveToken(data.token);
 	  });
 	};
+	
+	auth.updateUserProjects = function(user){
+	  return $http.post('/updateUserProjects', user).success(function(data){
+		console.log(data);
+	  });
+	};
 
 	auth.logIn = function(user){
 	  return $http.post('/login', user).success(function(data){
@@ -456,7 +492,15 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 		return payload;
 	  }
 	};
-  
+	
+	auth.currentId = function(){
+	  if(auth.isLoggedIn()){
+		var token = auth.getToken();
+		var payload = JSON.parse($window.atob(token.split('.')[1]));
+
+		return payload._id;
+	  }
+	};
    
   return auth;
 }])
@@ -474,6 +518,13 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 		  angular.copy(data, o.projects);
 		});
 	};
+	
+	o.getAllPublic = function() {
+		return $http.get('/allProjects',{headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
+		  angular.copy(data, o.projects);
+		});
+	};
+	
   
 	o.create = function(project) {
 		return $http.post('/projects', project, {headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
@@ -510,8 +561,9 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 	o.getUsers = function() {
 		return $http.get('/users',{headers: {Authorization: 'Bearer '+auth.getToken()}}).success(function(data){
 		  for(i=0;i<data.length;i++){
-			  if(data[i].iconoAvatar && data[i].username != auth.currentUser())
-				  o.users.push(data[i]);
+			  if(data[i].iconoAvatar)
+				  if( data[i].username != auth.currentUser())
+					o.users.push(data[i]);
 		  }
 			
 		  //angular.copy(data, o.users);

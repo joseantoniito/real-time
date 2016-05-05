@@ -9,7 +9,8 @@ var UserSchema = new mongoose.Schema({
   nombreCompleto: String,
   nombreInstitucion: String,
   correoElectronico: String,
-  iconoAvatar: String
+  iconoAvatar: String,
+  proyectos: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Project' }]
 });
 
 UserSchema.methods.setPassword = function(password){

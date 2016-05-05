@@ -12,6 +12,21 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+
+router.post('/updateUserProjects', function(req, res, next){
+  User.update(
+		{_id : new ObjectId(req.body._id)}, 
+		{
+			proyectos: req.body.proyectos
+		},  
+		function(err, numAffected){
+			if(err){ return next(err); }
+			res.json({ok: 1});
+		});
+  
+  
+});
+
 router.post('/register', function(req, res, next){
   if(!req.body.username || 
 	!req.body.password ||
@@ -53,6 +68,7 @@ router.post('/register', function(req, res, next){
 				nombreInstitucion : user.nombreInstitucion,
 				correoElectronico : user.correoElectronico, 
 				iconoAvatar : user.iconoAvatar,
+				proyectos: user.proyectos
 			},  
 			function(err, numAffected){
 				if(err){ return next(err); }
@@ -86,6 +102,16 @@ function loggedIn(req, res, next) {
         res.redirect('/#/login');
     }
 }
+
+
+router.get('/allProjects', auth, function(req, res, next) {
+  Project.find({ privado: false },
+	  function(err, projects){
+		if(err){ return next(err); }
+
+		res.json(projects);
+	  });
+});
 
 router.get('/projects', auth, function(req, res, next) {
   Project.find({ idUsuario: new ObjectId(req.payload._id) },
@@ -173,7 +199,7 @@ router.get('/users', auth, function(req, res, next) {
 });
 
 router.param('user', function(req, res, next, id) {
-  var query = User.findById(id);
+  var query = User.findById(id).populate('proyectos');
 
   query.exec(function (err, user){
     if (err) { return next(err); }

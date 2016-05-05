@@ -6,7 +6,9 @@ var ProjectSchema = new mongoose.Schema({
   idUsuario: { type: mongoose.Schema.Types.ObjectId },
   fechaCreacion: { type: Date, default: Date.now },
   icono: String,
-  colaboradores: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  colaboradores: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  privado: { type: Boolean, default: false },
+  finalizado: { type: Boolean, default: false }
   /*carpetas: [{ 
 	nombre: String, 
 	archivos: [{ nombre: String, ruta: String, contenido: String }] }],
