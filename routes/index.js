@@ -39,7 +39,7 @@ router.post('/register', function(req, res, next){
 	  return res.status(400).json({message: 'La confirmación de contraseña no coincide, favor de intentar nuevamente.'});
 
   var user = new User();
-  user._id = req.body._id;
+  
   user.username = req.body.username;
   user.setPassword(req.body.password);
   
@@ -48,18 +48,18 @@ router.post('/register', function(req, res, next){
   user.correoElectronico = req.body.correoElectronico;
   user.iconoAvatar = req.body.iconoAvatar;
   
-  if(user._id == null){
-	  user.save(function (err){
+  if(req.body._id == null){
+	  user.save(function (err, userR){
 		if(err){ 
 			return next(err);
 		}
 
-		return res.json({token: user.generateJWT()})
+		return res.json({token: userR.generateJWT()})
 	  });
   }
   else{
 	  User.update(
-			{_id : new ObjectId(user._id)}, 
+			{_id : new ObjectId(req.body._id)}, 
 			{
 				//username : user.username, 
 				hash : user.hash, 
