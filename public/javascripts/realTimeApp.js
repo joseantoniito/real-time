@@ -59,7 +59,9 @@ function($stateProvider, $urlRouterProvider) {
 		  controller: 'MainCtrl',
 		  resolve: {
 			postPromise: ['projects', function(projects){
-			  return projects.getAll();
+				if(projects.users.length==0)
+					projects.getUsers();
+				return projects.getAll();
 			}]
 		  }
 		});
@@ -91,8 +93,8 @@ function($stateProvider, $urlRouterProvider) {
 		  controller: 'ProjectsCtrl',
 		  resolve: {
 			post: ['$stateParams', 'projects', function($stateParams, projects) {
-				if(projects.users.length==0)
-					projects.getUsers();
+				/*if(projects.users.length==0)
+					projects.getUsers();*/
 			  return projects.get($stateParams.id);
 			}]
 		  }
@@ -340,15 +342,20 @@ function($scope, $stateParams, projects, $state, auth){
 			  debugger;
 				for(i=0; i < proyecto.colaboradores.length; i++){
 					
-					var proyectoExisteEnColaborador = false;
+					/*var proyectoExisteEnColaborador = false;
 					for(j=0; proyecto.colaboradores[i].proyectos.length; j++){
 						if(proyecto.colaboradores[i].proyectos[j] == proyecto._id){
 							proyectoExisteEnColaborador = true;
 							break;
 						}
 					}
-					if(!proyectoExisteEnColaborador)
-						proyecto.colaboradores[i].proyectos.push({_id: proyecto._id});
+					if(!proyectoExisteEnColaborador)*/
+					
+					if(proyecto.colaboradores[i].proyectos.indexOf(proyecto._id) == -1) 
+						proyecto.colaboradores[i].proyectos.push(proyecto._id);
+						//proyecto.colaboradores[i].proyectos.push({_id: proyecto._id});
+					
+					
 					//angular.copy(data, o.projects);
 					auth.updateUserProjects(proyecto.colaboradores[i])
 						.error(function(error){
@@ -378,6 +385,9 @@ function($scope, $state, auth){
   if(auth.isLoggedIn()){
 	  $scope.user  = auth.currentPayload();
   }
+  
+  if($scope.user)
+		$scope.user.colaboradorIndependiente = $scope.user.nombreInstitucion == 'Colaborador Independiente';
 
   $scope.avatars = [
 	{ url: 'Avatar1'},
