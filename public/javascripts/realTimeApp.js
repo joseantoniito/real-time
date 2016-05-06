@@ -261,6 +261,7 @@ function($scope, $stateParams, projects, $state, auth){
 		$scope.descripcion = $scope.project.descripcion;
 		$scope.icono = $scope.project.icono;
 		$scope.privado = $scope.project.privado + "";
+		$scope.colaboradores =  $scope.project.colaboradores;
 		
 		for(i=0; i< $scope.project.colaboradores.length; i++){
 			for(j=0; j< $scope.users.length; j++){
@@ -322,7 +323,7 @@ function($scope, $stateParams, projects, $state, auth){
 			descripcion: $scope.descripcion,
 			icono: $scope.icono,
 			privado: $scope.privado,
-			colaboradores: $scope.project.colaboradores
+			colaboradores: $scope.colaboradores
 		  };
 		  if($scope._id) project._id = $scope._id;
 		  else project._id = null;
