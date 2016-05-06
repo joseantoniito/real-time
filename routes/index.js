@@ -58,6 +58,7 @@ router.post('/register', function(req, res, next){
 	  });
   }
   else{
+	  user._id = req.body._id;
 	  User.update(
 			{_id : new ObjectId(req.body._id)}, 
 			{
