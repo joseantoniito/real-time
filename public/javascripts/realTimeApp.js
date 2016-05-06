@@ -1,6 +1,22 @@
 var app = angular.module('realTime', ['ui.router', 'ngMaterial', 'ui.bootstrap'])
 
-app.directive('disableAnimation', function($animate){
+app.directive('setNgAnimate', ['$animate', function ($animate) {
+    return {
+        link: function ($scope, $element, $attrs) { 
+          
+            $scope.$watch( function() { 
+                    return $scope.$eval($attrs.setNgAnimate, $scope); 
+                }, function(valnew, valold){
+                    $animate.enabled(!!valnew, $element);
+            });  
+            
+            
+        }
+    };
+}]);
+
+/*app.directive('disableAnimation', function($animate){
+	debugger;
     return {
         restrict: 'A',
         link: function($scope, $element, $attrs){
@@ -9,7 +25,7 @@ app.directive('disableAnimation', function($animate){
             });
         }
     }
-});
+});*/
 
 app.config([
 '$stateProvider',

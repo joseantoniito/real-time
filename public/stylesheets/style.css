@@ -4,10 +4,10 @@ body {
 }
 
 
-.md-is-open{
+/*.md-is-open{
 	background-color: rgb(63,81,181) !important;
-}
-/*
+}*/
+
 .whiteText{
 	color: white !important;
 	line-height: 65px !important;
@@ -15,7 +15,7 @@ body {
 .aBoton{
 	padding: 0 !important;
 	margin: 20px 0 !important;
-}*/
+}
 
 .card-media{
 	margin:0 20px;
