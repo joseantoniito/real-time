@@ -141,7 +141,8 @@ router.post('/projects', auth, function(req, res, next) {
 				nombre : project.nombre, 
 				descripcion : project.descripcion, 
 				icono : project.icono,
-				colaboradores : project.colaboradores
+				colaboradores : project.colaboradores,
+				privado: project.privado
 			},  
 			function(err, numAffected){
 				if(err){ return next(err); }

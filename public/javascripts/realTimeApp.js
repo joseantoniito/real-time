@@ -232,6 +232,8 @@ function($scope, $stateParams, projects, $state, auth){
 		}
 	}
 	$scope.user = projects.user;
+	if($scope.user)
+		$scope.user.colaboradorIndependiente = $scope.user.nombreInstitucion == 'Colaborador Independiente';
 	
 	var colaboradores = [];
 	
@@ -240,6 +242,7 @@ function($scope, $stateParams, projects, $state, auth){
 		$scope.nombre = $scope.project.nombre;
 		$scope.descripcion = $scope.project.descripcion;
 		$scope.icono = $scope.project.icono;
+		$scope.privado = $scope.project.privado + "";
 		
 		for(i=0; i< $scope.project.colaboradores.length; i++){
 			for(j=0; j< $scope.users.length; j++){
@@ -386,6 +389,9 @@ function($scope, $state, auth){
   
   $scope.register = function(){
 	if(!$scope.user._id) $scope.user._id = null;
+	
+	if($scope.user.colaboradorIndependiente) 
+		$scope.user.nombreInstitucion = 'Colaborador Independiente';
 	
     auth.register($scope.user).error(function(error){
 		$scope.error = error;

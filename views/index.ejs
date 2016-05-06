@@ -22,37 +22,55 @@
 		<img style="float:left;" src="../images/Logo.png" width="55">
 		<md-button class="md-primary navbar-brand" ng-href="/#/home">Múuch' Wa'akun</md-button>
 		
+		
+		
+		<!--<md-fab-toolbar md-open="demo.isOpen" count="demo.count" md-direction="left">
+			<md-fab-trigger class="align-with-text" style="float:right;">
+			  <md-button aria-label="menu" class="md-fab md-primary">
+				<md-icon md-svg-src="img/icons/menu.svg"></md-icon>
+			  </md-button>
+			</md-fab-trigger>
+
+			<md-toolbar>
+			  <md-fab-actions class="md-toolbar-tools pull-right">-->
+        
+		
 		<ul class="nav navbar-nav pull-right">
 		  
 		  <li ng-show="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/proyectos">Workspaces</md-button>
+			<md-button class="md-primary whiteText" ng-href="/#/proyectos">Workspaces</md-button>
 		  </li>
 		  <li ng-show="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/usuarios">Usuarios</md-button>
+			<md-button class="md-primary whiteText" ng-href="/#/usuarios">Usuarios</md-button>
 		  </li>
 		  <li ng-show="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/proyectos-publicos">Proyectos</md-button>
+			<md-button class="md-primary whiteText" ng-href="/#/proyectos-publicos">Proyectos</md-button>
 		  </li>
 		  
 		  <li ng-show="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/register/{{currentUser()}}">{{ currentUser() }}</md-button>
+			<md-button class="md-primary whiteText" ng-href="/#/register/{{currentUser()}}">{{ currentUser() }}</md-button>
 		  </li>
 		  
 		  <li ng-show="isLoggedIn()">
-			<md-button class="md-primary" ng-href="" ng-click="logOut()">Cerrar Sesión</md-button>
+			<md-button class="md-primary whiteText" ng-href="" ng-click="logOut()">Cerrar Sesión</md-button>
 		  </li>
 		  <li ng-hide="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/login">Inicio de Sesión</md-button>
+			<md-button class="md-primary whiteText" ng-href="/#/login">Inicio de Sesión</md-button>
 		  </li>
 		  <li ng-hide="isLoggedIn()">
-			<md-button class="md-primary" ng-href="/#/register">Registro</md-button>
+			<md-button class="md-primary whiteText" ng-href="/#/register">Registro</md-button>
 		  </li>
 		  <li ng-show="isLoggedIn()">
-			<a ng-href="/#/usuario/{{currentId()}}">
+			<a ng-href="/#/usuario/{{currentId()}}" class="aBoton">
 			<img src="../images/{{ currentAvatar() }}.png" width="55" />
 			</a>
 		  </li>
 		</ul>
+		
+		
+		<!--	</md-toolbar>
+		  </md-fab-toolbar>-->
+		
 	</nav>
   
 	<div ng-hide="isLoggedIn()">
@@ -211,11 +229,20 @@
 						</md-select>
 					</md-input-container>
 					
-					<md-input-container style="width:300px;">
+					<!--<md-input-container style="width:300px;">
 						<label>Privado</label>
 						<md-checkbox ng-model="privado" aria-label="Privado">
 						</md-checkbox>
-					</md-input-container>
+					</md-input-container>-->
+					
+					<md-radio-group ng-model="privado">
+						<md-radio-button value="true" class="md-primary">
+							Privado: Los proyectos apareceran en listado de proyectos para que todos los usuarios puedan ver su descripcion y los colaboradores que participan en ella
+						</md-radio-button>
+						<md-radio-button value="false"> 
+							Público: Los proyectos secretos no apareceran en el listado de proyectos y solo los colaboradores sabran de su existencia
+						</md-radio-button>
+					</md-radio-group>
 					
 					<md-button type="submit" class="md-raised md-primary">Guardar</md-button>
 				</form>
@@ -349,7 +376,9 @@
 									<md-list class="fixedRows">
 									  <md-subheader class="md-no-sticky">Contacts</md-subheader>
 									  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
+										<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
 										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
+										</a>
 										<div class="md-list-item-text compact">
 										  <h3>{{contact.nombreCompleto}}</h3>
 										  <p>{{contact.correoElectronico}}</p>
@@ -417,11 +446,13 @@
 		
 		<md-input-container ng-show="!isLoggedIn()">
 			<label>Nombre de Usuario</label>
-			<input ng-model="user.username" style="width:300px;">
+			<input ng-model="user.username" style="width:300px;"
+				ng-change="user.username=user.username.toLowerCase();">
 		</md-input-container>
 		<md-input-container>
 			<label>Nombre Completo</label>
-			<input ng-model="user.nombreCompleto" style="width:300px;">
+			<input ng-model="user.nombreCompleto" style="width:300px;"
+				ng-change="user.nombreCompleto=user.nombreCompleto.toUpperCase();">
 		</md-input-container>
 		
 		<md-input-container>
@@ -433,21 +464,33 @@
 			</md-select>
 		</md-input-container>
 		
-		<md-input-container>
+		<md-input-container style="width: 500px;">
+			<label>Colaborador Independiente</label>
+			<br>
+			<md-checkbox ng-model="user.colaboradorIndependiente" 
+				aria-label="Colaborador Independiente">
+			</md-checkbox>
+		</md-input-container>
+		
+		<md-input-container ng-show="!user.colaboradorIndependiente">
 			<label>Nombre Institucion</label>
-			<input ng-model="user.nombreInstitucion" style="width:300px;">
+			<input ng-model="user.nombreInstitucion" style="width:300px;"
+				ng-change="user.nombreInstitucion=user.nombreInstitucion.toUpperCase();"
+				ng-pattern="/^[a-zA-Z0-9]*$/">
 		</md-input-container>
 		<md-input-container>
 			<label>Correo Electrónico</label>
-			<input ng-model="user.correoElectronico" style="width:300px;">
+			<input type="email" ng-model="user.correoElectronico" style="width:300px;">
 		</md-input-container>
 		<md-input-container>
 			<label>Contraseña</label>
-			<input type="password" ng-model="user.password" style="width:300px;">
+			<input type="password" ng-model="user.password" style="width:300px;"
+				ng-minlength="6" ng-maxlength="12" ng-pattern="/^[a-zA-Z0-9]*$/">
 		</md-input-container>
 		<md-input-container>
 			<label>Confirmar Contraseña</label>
-			<input type="password" ng-model="user.confirmPassword" style="width:300px;">
+			<input type="password" ng-model="user.confirmPassword" style="width:300px;"
+				ng-minlength="6" ng-maxlength="12" ng-pattern="/^[a-zA-Z0-9]*$/">
 		</md-input-container>
 		
 		<md-button type="submit" class="md-raised md-primary">Guardar</md-button>
