@@ -305,7 +305,8 @@ function($scope, $stateParams, projects, $state, auth){
 			nombre: $scope.nombre,
 			descripcion: $scope.descripcion,
 			icono: $scope.icono,
-			privado: $scope.privado
+			privado: $scope.privado,
+			colaboradores: $scope.project.colaboradores
 		  };
 		  if($scope._id) project._id = $scope._id;
 		  else project._id = null;
@@ -342,21 +343,9 @@ function($scope, $stateParams, projects, $state, auth){
 			  debugger;
 				for(i=0; i < proyecto.colaboradores.length; i++){
 					
-					/*var proyectoExisteEnColaborador = false;
-					for(j=0; proyecto.colaboradores[i].proyectos.length; j++){
-						if(proyecto.colaboradores[i].proyectos[j] == proyecto._id){
-							proyectoExisteEnColaborador = true;
-							break;
-						}
-					}
-					if(!proyectoExisteEnColaborador)*/
-					
 					if(proyecto.colaboradores[i].proyectos.indexOf(proyecto._id) == -1) 
 						proyecto.colaboradores[i].proyectos.push(proyecto._id);
-						//proyecto.colaboradores[i].proyectos.push({_id: proyecto._id});
 					
-					
-					//angular.copy(data, o.projects);
 					auth.updateUserProjects(proyecto.colaboradores[i])
 						.error(function(error){
 							$scope.error = error;
