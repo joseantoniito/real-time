@@ -102,6 +102,53 @@
   <!-- Custom Scripts -->
   <script src="/javascripts/realTimeApp.js"></script>
 
+ 
+ <script type="text/ng-template" id="/detalle-proyecto.html">
+ <div class="row">
+	<div class="col-md-6 col-md-offset-3 bgrdWhite">
+		<div class="">
+			 <md-card>
+				<md-card-title>
+				  <md-card-title-media>
+				   <div class="md-media-sm card-media">
+						<img src="../images/{{ project.icono }}.png" width="55" />
+					</div>
+				  </md-card-title-media>
+				  
+				  <md-card-title-text>
+					<span class="md-headline">{{projectF.nombre}}</span>
+					<span class="md-subhead">{{projectF.descripcion}}</span>
+					<span class="md-subhead">{{projectF.fechaCreacion}}</span>
+					<span class="md-subhead">Finalizado: {{projectF.finalizado}}</span>
+				  </md-card-title-text>
+				  
+				</md-card-title>
+			  </md-card>
+		</div>
+		<div>
+			<md-content>
+				<md-list>
+				  <md-subheader class="md-no-sticky">Usuarios que participan</md-subheader>
+				  <md-list-item class="md-3-line" ng-repeat="user in projectF.colaboradores"
+					>
+					<img ng-src="../images/{{ user.iconoAvatar }}.png" 
+					class="md-avatar" 
+					alt="{{project.nombre}}">
+					<div class="md-list-item-text" layout="column">
+					  <h3>{{ user.nombreCompleto }}</h3>
+					  <h4>{{ user.nombreInstitucion }}</h4>
+					  <p>{{ user.correoElectronico }}</p>
+					  
+					</div>
+				  </md-list-item>
+				</md-list>
+			</md-content>
+		</div>
+	</div>
+</div>
+</script> 
+  
+  
  <script type="text/ng-template" id="/usuario.html">
  <div class="row">
 	<div class="col-md-6 col-md-offset-3 bgrdWhite">
@@ -187,9 +234,11 @@
 			  <md-subheader class="md-no-sticky">Proyectos Públicos</md-subheader>
 			  <md-list-item class="md-3-line" ng-repeat="project in projects"
 			  ng-show="!project.privado">
+				<a ng-href="/#/detalle-proyecto/{{project._id}}">
 				<img ng-src="../images/{{ project.icono }}.png" 
 				class="md-avatar" 
 				alt="{{project.nombre}}">
+				</a>
 				<div class="md-list-item-text" layout="column">
 				  <h3>{{ project.nombre }}</h3>
 				  <h4>{{ project.descripcion }}</h4>

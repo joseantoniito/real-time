@@ -153,7 +153,7 @@ router.post('/projects', auth, function(req, res, next) {
 });
 
 router.param('project', function(req, res, next, id) {
-  var query = Project.findById(id);
+  var query = Project.findById(id).populate('colaboradores');
 
   query.exec(function (err, post){
     if (err) { return next(err); }

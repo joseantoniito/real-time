@@ -32,6 +32,18 @@ app.config([
 '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {
 	$stateProvider
+		.state('detalle-proyecto', {
+		  url: '/detalle-proyecto/{id}',
+		  templateUrl: '/detalle-proyecto.html',
+		  controller: 'ProjectsCtrl',
+		  resolve: {
+			post: ['$stateParams', 'projects', function($stateParams, projects) {
+				return projects.getProject($stateParams.id);
+			}]
+		  }
+		});
+	
+	$stateProvider
 		.state('usuario', {
 		  url: '/usuario/{id}',
 		  templateUrl: '/usuario.html',
@@ -249,6 +261,7 @@ function($scope, $stateParams, projects, $state, auth){
 			break;
 		}
 	}
+	$scope.projectF = projects.project;
 	$scope.user = projects.user;
 	if($scope.user)
 		$scope.user.colaboradorIndependiente = $scope.user.nombreInstitucion == 'Colaborador Independiente';
@@ -532,7 +545,8 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 	  var o = {
 		projects: [],
 		users: [],
-		user: null
+		user: null,
+		project: null
 	  };
   
 	o.getAll = function() {
@@ -600,6 +614,13 @@ app.factory('projects', ['$http', 'auth', function($http, auth){
 	o.getUser = function(id) {
 	  return $http.get('/users/' + id).then(function(res){
 		  o.user = res.data;
+			return res.data;
+	  });
+	};
+	
+	o.getProject = function(id) {
+	  return $http.get('/projects/' + id).then(function(res){
+		  o.project = res.data;
 			return res.data;
 	  });
 	};
