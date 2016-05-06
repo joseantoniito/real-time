@@ -87,6 +87,7 @@ function($stateProvider, $urlRouterProvider) {
 		  controller: 'MainCtrl',
 		  resolve: {
 			postPromise: ['projects', function(projects){
+				debugger;
 				if(projects.users.length==0)
 					projects.getUsers();
 				return projects.getAll();
@@ -182,8 +183,9 @@ app.controller('MainCtrl', [
 'projects',
 function($scope, $state, auth, projects){
   $scope.projects = projects.projects;
-
-  
+  debugger;
+  if($state.current.name == "home")
+	projects.users = [];
   
   $scope.myInterval = 3000;
   $scope.slides = [

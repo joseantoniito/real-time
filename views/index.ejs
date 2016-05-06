@@ -28,7 +28,6 @@
 			<md-fab-trigger class="align-with-text" style="float:right;">
 			  <md-button aria-label="menu" class="md-fab md-primary">
 				<md-icon md-font-icon="icon-settings"
-					ng-style="color: white, font-size: 24px, height: 24px;"
 					theme="md-warn md-hue-5"></md-icon>
 					<<<
 			  </md-button>
@@ -119,7 +118,7 @@
 					<span class="md-headline">{{projectF.nombre}}</span>
 					<span class="md-subhead">{{projectF.descripcion}}</span>
 					<span class="md-subhead">{{projectF.fechaCreacion}}</span>
-					<span class="md-subhead">Finalizado: {{projectF.finalizado}}</span>
+					<span class="md-subhead">Estado: {{projectF.finalizado ? 'Finalizado' : 'Activo'}}</span>
 				  </md-card-title-text>
 				  
 				</md-card-title>
@@ -183,7 +182,8 @@
 					  <h3>{{ project.nombre }}</h3>
 					  <h4>{{ project.descripcion }}</h4>
 					  <p>{{ project.fechaCreacion }}</p>
-					  <p>Finalizado: {{ project.finalizado }}</p>
+					  <p>Estado: {{project.finalizado ? 'Finalizado' : 'Activo'}}</span>
+				  </md-card-title-text></p>
 					</div>
 				  </md-list-item>
 				</md-list>
@@ -471,7 +471,7 @@
 	
 <script type="text/ng-template" id="/home.html">
 	<div id="carouselHome">
-      <carousel interval="myInterval" disable-animation="true">
+      <carousel interval="myInterval"  >
         <slide ng-repeat="slide in slides" active="slide.active">
           <img ng-src="{{slide.image}}" width="1300" >
 		  <div class="textoCarouselHome">
