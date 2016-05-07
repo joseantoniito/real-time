@@ -1,42 +1,5 @@
 var app = angular.module('realTime', ['ui.router', 'ngMaterial', 'ui.bootstrap'])
 
-app.directive('disableNgAnimate', ['$animate', function($animate) {
-  return {
-    //restrict: 'A',
-    link: function(scope, element) {
-      $animate.enabled(false, element);
-    }
-  };
-}]);
-
-/*app.directive('setNgAnimate', ['$animate', function ($animate) {
-    return {
-        link: function ($scope, $element, $attrs) { 
-          
-            $scope.$watch( function() { 
-                    return $scope.$eval($attrs.setNgAnimate, $scope); 
-                }, function(valnew, valold){
-                    $animate.enabled(!!valnew, $element);
-            });  
-            
-            
-        }
-    };
-}]);
-
-app.directive('disableAnimation', function($animate){
-	debugger;
-    return {
-        restrict: 'A',
-        link: function($scope, $element, $attrs){
-            $attrs.$observe('disableAnimation', function(value){
-                $animate.enabled(!value, $element);
-				console.log(value, $element);
-            });
-        }
-    }
-});*/
-
 app.config([
 '$stateProvider',
 '$urlRouterProvider',
