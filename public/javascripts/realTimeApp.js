@@ -42,7 +42,7 @@ app.config([
 '$urlRouterProvider',
 '$animateProvider',
 function($stateProvider, $urlRouterProvider, $animateProvider) {
-	$animateProvider.classNameFilter(/^(?:(?!ng-animate-disabled).)*$/);
+	//$animateProvider.classNameFilter(/^(?:(?!ng-animate-disabled).)*$/);
 	$stateProvider
 		.state('detalle-proyecto', {
 		  url: '/detalle-proyecto/{id}',
