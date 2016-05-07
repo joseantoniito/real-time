@@ -3,6 +3,10 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.no-animate {
+   -webkit-transition: none !important;
+   transition: none !important;
+}
 
 /*.md-is-open{
 	background-color: rgb(63,81,181) !important;
