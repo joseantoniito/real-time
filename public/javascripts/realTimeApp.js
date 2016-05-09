@@ -3,9 +3,7 @@ var app = angular.module('realTime', ['ui.router', 'ngMaterial', 'ui.bootstrap']
 app.config([
 '$stateProvider',
 '$urlRouterProvider',
-'$animateProvider',
-function($stateProvider, $urlRouterProvider, $animateProvider) {
-	//$animateProvider.classNameFilter(/^(?:(?!ng-animate-disabled).)*$/);
+function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 		.state('detalle-proyecto', {
 		  url: '/detalle-proyecto/{id}',
@@ -278,7 +276,7 @@ function($scope, $stateParams, projects, $state, auth){
 	
 	
 	$scope.allContacts = $scope.loadContacts();
-	$scope.contacts = colaboradores;//[$scope.allContacts[0]];
+	$scope.contacts = colaboradores;
 	$scope.filterSelected = true;
 	
 	$scope.querySearch = function(criteria){
@@ -290,7 +288,7 @@ function($scope, $stateParams, projects, $state, auth){
 
       return function filterFn(contact) {
 		if(!contact.nombreCompleto) return false;
-        return (contact.nombreCompleto.indexOf(lowercaseQuery) != -1);;//contact._lowername > correoElectronico
+        return (contact.nombreCompleto.toLowerCase().indexOf(lowercaseQuery) != -1);
       };
 
     }
