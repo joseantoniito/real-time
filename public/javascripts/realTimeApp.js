@@ -357,10 +357,11 @@ function($scope, $stateParams, projects, $state, auth){
 	
 	$scope.saveCollaborators = function(){
 		
-		proyecto = $scope.project;
+		proyecto = angular.copy($scope.project);
 		usuariosTotales = $scope.users;
-		proyecto.colaboradores = $scope.contacts;
+		proyecto.colaboradores = angular.copy($scope.contacts);
 		debugger;
+		
 		proyecto.colaboradores.splice(0,0,auth.currentPayload());
 	
 		projects.create(proyecto).error(function(error){
