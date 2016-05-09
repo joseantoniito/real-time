@@ -124,18 +124,26 @@ router.get('/projects', auth, function(req, res, next) {
 });
 
 router.post('/projects', auth, function(req, res, next) {
-	var project = new Project(req.body);
+	var project = new Project({
+				nombre : req.body.nombre, 
+				descripcion : req.body.descripcion, 
+				icono : req.body.icono,
+				colaboradores : req.body.colaboradores,
+				privado: req.body.privado
+			});
 	project.idUsuario =  req.payload._id;
 
-	if(project._id == null){
-		project.save(function(err, project){
+	if(req.body._id == null){
+		
+		project.save(function(err, projectR){
 			if(err){ return next(err); }
 
-			res.json(project);
+			res.json(projectR);
 		 });
 	}
 	else
 	{
+		project._id = req.body._id;
 		Project.update(
 			{_id : new ObjectId(project._id)}, 
 			{

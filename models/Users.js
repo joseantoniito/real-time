@@ -39,6 +39,7 @@ UserSchema.methods.generateJWT = function() {
 	nombreInstitucion: this.nombreInstitucion,
 	correoElectronico: this.correoElectronico,
 	iconoAvatar: this.iconoAvatar,
+	proyectos: this.proyectos,
     exp: parseInt(exp.getTime() / 1000),
   }, 'SECRET');
 };

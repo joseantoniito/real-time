@@ -313,8 +313,13 @@ function($scope, $stateParams, projects, $state, auth){
 			privado: $scope.privado,
 			colaboradores: $scope.colaboradores
 		  };
-		  if($scope._id) project._id = $scope._id;
-		  else project._id = null;
+		  if($scope._id) 
+			  project._id = $scope._id;
+		  else {
+			  project._id = null;
+			  project.colaboradores = [auth.currentId()];
+		  }
+			  
 	  
 		  projects.create(project).error(function(error){
 			$scope.error = error;
@@ -324,7 +329,26 @@ function($scope, $stateParams, projects, $state, auth){
 						new Object({message:"El nombre del proyecto ya esta registrado, favor de intentar con otro nombre de proyecto."});
 			
 			}).then(function(){
-			  $state.go('proyectos');
+				debugger;
+				if(project._id){
+					//$state.go('proyectos');
+				}
+				else{
+					var idProyectoActual = projects.projects[projects.projects.length-1]._id;
+					var usuarioLogueado= auth.currentPayload();
+					if(!usuarioLogueado.proyectos)
+						usuarioLogueado.proyectos = [];
+					usuarioLogueado.proyectos.push(idProyectoActual);
+					auth.updateUserProjects(usuarioLogueado)
+							.error(function(error){
+								$scope.error = error;
+								
+							}).then(function(){
+								debugger;
+								$state.go('proyectos');
+								
+							});
+				}
 			});;
 		  $scope.nombre = '';
 		  $scope.descripcion = '';
@@ -332,11 +356,13 @@ function($scope, $stateParams, projects, $state, auth){
 	};
 	
 	$scope.saveCollaborators = function(){
-		debugger;
+		
 		proyecto = $scope.project;
 		usuariosTotales = $scope.users;
 		proyecto.colaboradores = $scope.contacts;
-		
+		debugger;
+		proyecto.colaboradores.splice(0,0,auth.currentPayload());
+	
 		projects.create(proyecto).error(function(error){
 			$scope.error = error;
 			if(!$scope.error.message)
@@ -353,6 +379,7 @@ function($scope, $stateParams, projects, $state, auth){
 					
 					auth.updateUserProjects(proyecto.colaboradores[i])
 						.error(function(error){
+							debugger;
 							$scope.error = error;
 							if(!$scope.error.message)
 								if($scope.error.indexOf("duplicate key") != -1)
