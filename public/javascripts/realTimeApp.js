@@ -260,7 +260,7 @@ function($scope, $stateParams, projects, $state, auth){
 	}
 	
 	
-	var cachedQuery, lastSearch;
+	var cachedQuery, lastSearch, pendingSearch, cancelSearch = angular.noop;
 	
 	$scope.loadContacts = function(){
 		return $scope.users;
@@ -277,10 +277,10 @@ function($scope, $stateParams, projects, $state, auth){
 	
 	$scope.allContacts = $scope.loadContacts();
 	$scope.contacts = colaboradores;
-	$scope.filterSelected = true;
+	$scope.filterSelected = false;
 	
 	$scope.querySearch = function(criteria){
-		cachedQuery = cachedQuery || criteria;
+		cachedQuery = criteria;
       return cachedQuery ? $scope.allContacts.filter(createFilterFor(cachedQuery)) : [];
 	}
 	function createFilterFor(query) {
