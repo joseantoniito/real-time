@@ -331,7 +331,7 @@ function($scope, $stateParams, projects, $state, auth){
 			}).then(function(){
 				debugger;
 				if(project._id){
-					//$state.go('proyectos');
+					$state.go('proyectos');
 				}
 				else{
 					var idProyectoActual = projects.projects[projects.projects.length-1]._id;
