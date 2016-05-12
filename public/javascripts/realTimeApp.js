@@ -287,8 +287,7 @@ function($scope, $stateParams, projects, $state, auth){
       var lowercaseQuery = angular.lowercase(query);
 
       return function filterFn(contact) {
-		if(!contact.nombreCompleto) return false;
-        return (contact.nombreCompleto.toLowerCase().indexOf(lowercaseQuery) != -1);
+        return (contact.username.toLowerCase().indexOf(lowercaseQuery) != -1);
       };
 
     }

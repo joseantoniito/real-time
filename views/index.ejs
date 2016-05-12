@@ -130,9 +130,11 @@
 				  <md-subheader class="md-no-sticky">Usuarios que participan</md-subheader>
 				  <md-list-item class="md-3-line" ng-repeat="user in projectF.colaboradores"
 					>
+					<a ng-href="/#/usuario/{{user._id}}">
 					<img ng-src="../images/{{ user.iconoAvatar }}.png" 
 					class="md-avatar" 
 					alt="{{project.nombre}}">
+					</a>
 					<div class="md-list-item-text" layout="column">
 					  <h3>{{ user.nombreCompleto }}</h3>
 					  <h4>{{ user.nombreInstitucion }}</h4>
@@ -175,9 +177,11 @@
 				  <md-subheader class="md-no-sticky">Proyectos en que participa</md-subheader>
 				  <md-list-item class="md-3-line" ng-repeat="project in user.proyectos"
 					ng-show="!project.privado">
+					<a ng-href="/#/detalle-proyecto/{{project._id}}">
 					<img ng-src="../images/{{ project.icono }}.png" 
 					class="md-avatar" 
 					alt="{{project.nombre}}">
+					</a>
 					<div class="md-list-item-text" layout="column">
 					  <h3>{{ project.nombre }}</h3>
 					  <h4>{{ project.descripcion }}</h4>
@@ -197,31 +201,42 @@
 <div class="row">
 	<div class="col-md-4 col-md-offset-4 bgrdWhite">
 		<md-content class="md-padding autocomplete" layout="column">
-			<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="nombreCompleto" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Usuarios">
+			<md-contact-chips ng-model="contacts" 
+				md-contacts="querySearch($query)" 
+				md-contact-name="username" 
+				md-contact-image="iconoAvatar" 
+				md-contact-email="correoElectronico" 
+				md-require-match="true" 
+				md-highlight-flags="i" 
+				filter-selected="filterSelected" 
+				placeholder="Usuarios">
 			</md-contact-chips>
 
-			<md-list class="fixedRows" style="height:500px;">
+			<md-list class="fixedRows" style="height:300px;">
 			  <md-subheader class="md-no-sticky">Contacts</md-subheader>
+			  
+			  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
+				<a ng-href="/#/usuario/{{contact._id}}">
+				<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.username}}">
+				</a>
+				<div class="md-list-item-text compact">
+				  <h3>{{contact.username}}</h3>
+				  <p>{{contact.correoElectronico}}</p>
+				</div>
+			  </md-list-item>
+			  
 			  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
 				<a ng-href="/#/usuario/{{contact._id}}">
 				<img ng-src="{{ contact.iconoAvatar }}" 
 					class="md-avatar" 
-					alt="{{contact.nombreCompleto}}">
+					alt="{{contact.username}}">
 				</a>
 				<div class="md-list-item-text compact">
-				  <h3>{{contact.nombreCompleto}}</h3>
+				  <h3>{{contact.username}}</h3>
 				  <p>{{contact.correoElectronico}}</p>
 				</div>
 			  </md-list-item>
-			  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
-				<a ng-href="/#/usuario/{{contact._id}}">
-				<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
-				</a>
-				<div class="md-list-item-text compact">
-				  <h3>{{contact.nombreCompleto}}</h3>
-				  <p>{{contact.correoElectronico}}</p>
-				</div>
-			  </md-list-item>
+			  
 			</md-list>
 			
 			</md-content>
@@ -429,27 +444,30 @@
 							<div class="panel-body minH">
 							<form ng-submit="saveCollaborators()" class="">
 								<md-content class="md-padding autocomplete" layout="column">
-									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="nombreCompleto" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores">
+									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="username" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores">
 									</md-contact-chips>
 
-									<md-list class="fixedRows" style="height:500px;">
+									<md-list class="fixedRows" style="height:300px;">
 									  <md-subheader class="md-no-sticky">Contacts</md-subheader>
+									  
+									  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
+										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.username}}">
+										<div class="md-list-item-text compact">
+										  <h3>{{contact.username}}</h3>
+										  <p>{{contact.correoElectronico}}</p>
+										</div>
+									  </md-list-item>
+									  
 									  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
 										<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
-										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
+										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.username}}">
 										</a>
 										<div class="md-list-item-text compact">
-										  <h3>{{contact.nombreCompleto}}</h3>
+										  <h3>{{contact.username}}</h3>
 										  <p>{{contact.correoElectronico}}</p>
 										</div>
 									  </md-list-item>
-									  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
-										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
-										<div class="md-list-item-text compact">
-										  <h3>{{contact.nombreCompleto}}</h3>
-										  <p>{{contact.correoElectronico}}</p>
-										</div>
-									  </md-list-item>
+									  
 									</md-list>
 								</md-content>
 								

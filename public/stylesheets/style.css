@@ -3,6 +3,10 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.contact-item.selected .ng-binding{
+	color: red;
+}
+
 .no-animate {
    -webkit-transition: none !important;
    transition: none !important;
