@@ -126,7 +126,7 @@
 		</div>
 		<div>
 			<md-content>
-				<md-list>
+				<md-list style="height:400px;">
 				  <md-subheader class="md-no-sticky">Usuarios que participan</md-subheader>
 				  <md-list-item class="md-3-line" ng-repeat="user in projectF.colaboradores"
 					>
@@ -171,7 +171,7 @@
 		</div>
 		<div>
 			<md-content>
-				<md-list>
+				<md-list style="height:400px;">
 				  <md-subheader class="md-no-sticky">Proyectos en que participa</md-subheader>
 				  <md-list-item class="md-3-line" ng-repeat="project in user.proyectos"
 					ng-show="!project.privado">
@@ -200,7 +200,7 @@
 			<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="nombreCompleto" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Usuarios">
 			</md-contact-chips>
 
-			<md-list class="fixedRows">
+			<md-list class="fixedRows" style="height:500px;">
 			  <md-subheader class="md-no-sticky">Contacts</md-subheader>
 			  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
 				<a ng-href="/#/usuario/{{contact._id}}">
@@ -214,7 +214,9 @@
 				</div>
 			  </md-list-item>
 			  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
+				<a ng-href="/#/usuario/{{contact._id}}">
 				<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.nombreCompleto}}">
+				</a>
 				<div class="md-list-item-text compact">
 				  <h3>{{contact.nombreCompleto}}</h3>
 				  <p>{{contact.correoElectronico}}</p>
@@ -231,7 +233,7 @@
 <div class="row">
 	<div class="col-md-6 col-md-offset-3 bgrdWhite">
 		<md-content>
-			<md-list>
+			<md-list style="height:500px;">
 			  <md-subheader class="md-no-sticky">Proyectos Públicos</md-subheader>
 			  <md-list-item class="md-3-line" ng-repeat="project in projects"
 			  ng-show="!project.privado">
@@ -322,7 +324,7 @@
 						<md-button class="md-primary" ng-href="/#/agregar-proyectos">Crear Nuevo Proyecto</md-button>
 					</div>
 					
-					<div class="col-md-6">
+					<div class="col-md-6" style="height:500px; overflow-y:auto;">
 						<div ng-show="error" class="alert alert-danger row">
 							<span>{{ error.message }}</span>
 						</div>
@@ -430,7 +432,7 @@
 									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="nombreCompleto" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores">
 									</md-contact-chips>
 
-									<md-list class="fixedRows">
+									<md-list class="fixedRows" style="height:500px;">
 									  <md-subheader class="md-no-sticky">Contacts</md-subheader>
 									  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
 										<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
@@ -532,8 +534,7 @@
 		<md-input-container ng-show="!user.colaboradorIndependiente">
 			<label>Nombre Institucion</label>
 			<input ng-model="user.nombreInstitucion" style="width:300px;"
-				ng-change="user.nombreInstitucion=user.nombreInstitucion.toUpperCase();"
-				ng-pattern="/^[a-zA-Z0-9]*$/">
+				ng-change="user.nombreInstitucion=user.nombreInstitucion.toUpperCase();">
 		</md-input-container>
 		<md-input-container>
 			<label>Correo Electrónico</label>
