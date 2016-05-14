@@ -3,6 +3,14 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+
+.contact-item.selected .md-list-item-text{
+	background-color: #E0E0E0;
+	padding-left: 10px;
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
 .contact-item.selected .ng-binding{
 	color: red;
 }

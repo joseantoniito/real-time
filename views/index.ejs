@@ -216,7 +216,7 @@
 			  <md-subheader class="md-no-sticky">Contacts</md-subheader>
 			  
 			  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
-				<a ng-href="/#/usuario/{{contact._id}}">
+				<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
 				<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.username}}">
 				</a>
 				<div class="md-list-item-text compact">
@@ -226,7 +226,7 @@
 			  </md-list-item>
 			  
 			  <md-list-item class="md-2-line contact-item" ng-repeat="(index, contact) in allContacts" ng-if="contacts.indexOf(contact) < 0">
-				<a ng-href="/#/usuario/{{contact._id}}">
+				<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
 				<img ng-src="{{ contact.iconoAvatar }}" 
 					class="md-avatar" 
 					alt="{{contact.username}}">
@@ -365,12 +365,17 @@
 									ng-show="project._id">Abrir</md-button>
 									
 									<md-button class="md-primary" ng-href="#/agregar-proyectos/{{project._id}}"
-									ng-show="project._id">Editar</md-button>
+									ng-show="project._id && project.idUsuario == currentId()">Editar</md-button>
 									
 									<md-button class="md-warn" 
 									ng-click="deleteProject(project._id)"
-									ng-show="project._id">
+									ng-show="project._id && project.idUsuario == currentId()">
 									Eliminar</md-button>
+									
+									<md-button class="md-warn" 
+									ng-click="unasignProjectToUser(project._id,project.colaboradores)"
+									ng-show="project._id && project.idUsuario != currentId()">
+									Salir</md-button>
 									
 								  
 								</md-card-actions>
@@ -444,14 +449,17 @@
 							<div class="panel-body minH">
 							<form ng-submit="saveCollaborators()" class="">
 								<md-content class="md-padding autocomplete" layout="column">
-									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="username" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores">
+									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="username" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores"
+									ng-show="project.idUsuario == currentId()">
 									</md-contact-chips>
 
 									<md-list class="fixedRows" style="height:300px;">
 									  <md-subheader class="md-no-sticky">Contacts</md-subheader>
 									  
 									  <md-list-item class="md-2-line contact-item selected" ng-repeat="(index, contact) in contacts">
+										<a ng-href="/#/usuario/{{contact._id}}" target="_blank">
 										<img ng-src="{{ contact.iconoAvatar }}" class="md-avatar" alt="{{contact.username}}">
+										</a>
 										<div class="md-list-item-text compact">
 										  <h3>{{contact.username}}</h3>
 										  <p>{{contact.correoElectronico}}</p>
@@ -471,7 +479,9 @@
 									</md-list>
 								</md-content>
 								
-								<md-button type="submit" class="md-raised md-primary">Guardar Colaboradores</md-button>
+								<md-button type="submit" class="md-raised md-primary"
+									ng-show="project.idUsuario == currentId()">
+									Guardar Colaboradores</md-button>
 								
 							</form>
 							
