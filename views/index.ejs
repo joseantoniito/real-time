@@ -450,7 +450,8 @@
 							<form ng-submit="saveCollaborators()" class="">
 								<md-content class="md-padding autocomplete" layout="column">
 									<md-contact-chips ng-model="contacts" md-contacts="querySearch($query)" md-contact-name="username" md-contact-image="iconoAvatar" md-contact-email="correoElectronico" md-require-match="true" md-highlight-flags="i" filter-selected="filterSelected" placeholder="Colaboradores"
-									ng-show="project.idUsuario == currentId()">
+									ng-show="project.idUsuario == currentId()"
+									>
 									</md-contact-chips>
 
 									<md-list class="fixedRows" style="height:300px;">

@@ -7,6 +7,7 @@ var Project = mongoose.model('Project');
 var jwt = require('express-jwt');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 var ObjectId = require('mongoose').Types.ObjectId; 
+var nodemailer = require('nodemailer');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -39,8 +40,33 @@ router.post('/unasignProjectToUser', function(req, res, next){
 					colaboradores: colaboradores
 				},  
 				function(err, numAffected){
+					var transporter = nodemailer.createTransport({
+						service: 'Gmail',
+						auth: {
+							user: 'joseantoniito@gmail.com', // Your email id
+							pass: 'cream-26' // Your password
+						}
+					});
+										
+					var mailOptions = {
+						from: 'joseantoniito@hotmail.com>',
+						to: 'joseantoniito@hotmail.com',
+						subject: 'Muuch Wa akun',
+						html: '<p>El usuario salio del proyecto</p>'
+					};
+					
+					transporter.sendMail(mailOptions, function(error, info){
+						if(error){
+							//console.log(error);
+							res.json({yo: error});
+						}else{
+							//console.log('Message sent: ' + info.response);
+							res.json({yo: info.response});
+						};
+					});
+					
 					if(err){ return next(err); }
-					res.json({ok: 1});
+					//res.json({ok: 1});
 				});
 		  
 			

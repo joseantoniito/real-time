@@ -221,9 +221,10 @@ function($scope, $state, auth, projects){
 				new Object({message:"Ocurrió un error al salir del proyecto."});
 			
 		}).then(function(){
-		  //$state.go('proyectos');
+		  
 		  $scope.error =
 				new Object({message:"Se salió del proyecto correctamente."});
+		  $state.go('proyectos');
 	  });; 
 	};
 	
@@ -243,6 +244,7 @@ app.controller('ProjectsCtrl', [
 '$state',
 'auth',
 function($scope, $stateParams, projects, $state, auth){
+	$scope.currentId = auth.currentId;
 	
 	$scope.iconos = [
 	{ url: 'ico-agenda'},
