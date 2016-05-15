@@ -8,6 +8,14 @@ var jwt = require('express-jwt');
 var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 var ObjectId = require('mongoose').Types.ObjectId; 
 var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+var transporter = nodemailer.createTransport(smtpTransport({
+   service: 'Gmail',
+   auth: {
+       user: 'joseantoniito@gmail.com',
+       pass: 'cream-26'
+   }
+}));
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -39,34 +47,23 @@ router.post('/unasignProjectToUser', function(req, res, next){
 				{
 					colaboradores: colaboradores
 				},  
-				function(err, numAffected){
-					var transporter = nodemailer.createTransport({
-						service: 'Gmail',
-						auth: {
-							user: 'joseantoniito@gmail.com', // Your email id
-							pass: 'cream-26' // Your password
-						}
-					});
-										
+				function(err, numAffected){					
 					var mailOptions = {
-						from: 'joseantoniito@hotmail.com>',
-						to: 'joseantoniito@hotmail.com',
+						from: 'joseantoniito@gmail.com',
+						to: 'jose.antonio.sandoval.flores@gmail.com',
 						subject: 'Muuch Wa akun',
-						html: '<p>El usuario salio del proyecto</p>'
+						text: 'El usuario salio del proyecto'
 					};
 					
 					transporter.sendMail(mailOptions, function(error, info){
 						if(error){
-							//console.log(error);
-							res.json({yo: error});
+							res.json({yo: "error"});
 						}else{
-							//console.log('Message sent: ' + info.response);
-							res.json({yo: info.response});
+							res.json({yo: "ok"});
 						};
 					});
 					
 					if(err){ return next(err); }
-					//res.json({ok: 1});
 				});
 		  
 			
@@ -86,7 +83,24 @@ router.post('/updateUserProjects', function(req, res, next){
 		},  
 		function(err, numAffected){
 			if(err){ return next(err); }
-			res.json({ok: 1});
+			
+			
+			var mailOptions = {
+						from: 'joseantoniito@gmail.com',
+						to: 'jose.antonio.sandoval.flores@gmail.com',
+						subject: 'Muuch Wa akun',
+						text: 'El usuario salio del proyecto'
+					};
+					
+					transporter.sendMail(mailOptions, function(error, info){
+						if(error){
+							res.json({yo: "error"});
+						}else{
+							res.json({yo: "ok"});
+						};
+					});
+			
+			//res.json({ok: 1});
 		});
   
   
