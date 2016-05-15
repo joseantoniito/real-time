@@ -373,7 +373,7 @@
 									Eliminar</md-button>
 									
 									<md-button class="md-warn" 
-									ng-click="unasignProjectToUser(project._id,project.colaboradores)"
+									ng-click="unasignProjectToUser(project._id,project.colaboradores, project.nombre)"
 									ng-show="project._id && project.idUsuario != currentId()">
 									Salir</md-button>
 									

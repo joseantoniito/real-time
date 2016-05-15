@@ -202,7 +202,7 @@ function($scope, $state, auth, projects){
 	  });; 
 	};
 	
-	$scope.unasignProjectToUser = function(id, colaboradores){
+	$scope.unasignProjectToUser = function(id, colaboradores, nombreProyecto){
 	  var proyectos = [];
 	  for(i=0;i<$scope.projects.length;i++){
 		  proyectos.push($scope.projects[i]._id);
@@ -213,7 +213,9 @@ function($scope, $state, auth, projects){
 		  idProyecto: id,
 		  colaboradores: colaboradores,
 		  idUsuario: auth.currentId(),
-		  proyectos: proyectos
+		  proyectos: proyectos,
+		  correoElectronico: auth.currentPayload().correoElectronico,
+		  nombreProyecto: nombreProyecto
 	  }).error(function(error){
 		$scope.error = error;
 		if(!$scope.error.message)
@@ -403,8 +405,11 @@ function($scope, $stateParams, projects, $state, auth){
 			  debugger;
 				for(i=0; i < proyecto.colaboradores.length; i++){
 					
-					if(proyecto.colaboradores[i].proyectos.indexOf(proyecto._id) == -1) 
+					if(proyecto.colaboradores[i].proyectos.indexOf(proyecto._id) == -1) {
 						proyecto.colaboradores[i].proyectos.push(proyecto._id);
+						proyecto.colaboradores[i].nombreProyecto = proyecto.nombre;
+					}
+						
 					
 					auth.updateUserProjects(proyecto.colaboradores[i])
 						.error(function(error){

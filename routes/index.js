@@ -29,6 +29,9 @@ router.post('/unasignProjectToUser', function(req, res, next){
   var proyectos = req.body.proyectos;
   var colaboradores = req.body.colaboradores;
   
+  var nombreProyecto = req.body.nombreProyecto;
+  var correoElectronico = req.body.correoElectronico;
+  
   colaboradores.splice(colaboradores.indexOf(idUsuario),1);
   proyectos.splice(proyectos.indexOf(idProyecto),1);
   
@@ -50,9 +53,9 @@ router.post('/unasignProjectToUser', function(req, res, next){
 				function(err, numAffected){					
 					var mailOptions = {
 						from: 'joseantoniito@gmail.com',
-						to: 'jose.antonio.sandoval.flores@gmail.com',
+						to: correoElectronico,
 						subject: 'Muuch Wa akun',
-						text: 'El usuario salio del proyecto'
+						text: 'El usuario salió del proyecto ' + nombreProyecto
 					};
 					
 					transporter.sendMail(mailOptions, function(error, info){
@@ -84,12 +87,12 @@ router.post('/updateUserProjects', function(req, res, next){
 		function(err, numAffected){
 			if(err){ return next(err); }
 			
-			
-			var mailOptions = {
+			if(req.body.nombreProyecto){
+				var mailOptions = {
 						from: 'joseantoniito@gmail.com',
-						to: 'jose.antonio.sandoval.flores@gmail.com',
+						to: req.body.correoElectronico,
 						subject: 'Muuch Wa akun',
-						text: 'El usuario salio del proyecto'
+						text: 'El usuario fue agregado al proyecto ' +req.body.nombreProyecto + ' como colaborador'
 					};
 					
 					transporter.sendMail(mailOptions, function(error, info){
@@ -99,8 +102,9 @@ router.post('/updateUserProjects', function(req, res, next){
 							res.json({yo: "ok"});
 						};
 					});
-			
-			//res.json({ok: 1});
+			}
+			else
+				res.json({ok: 1});
 		});
   
   
